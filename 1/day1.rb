@@ -26,14 +26,15 @@
 
 sum = 2020
 
-entries = DATA.map { |e| e.to_i }
+ENTRIES = DATA.map { |e| e.to_i }
 
-entries.each do |a|
-  # is assignment in an `if` expression idiomatic?
-  if b = entries.find { |e| e == 2020 - a }
-    puts "#{a} + #{b} = #{a + b}"
-    puts "#{a} * #{b} = #{a * b}"
-    break
+ENTRIES.each_with_index do |a, i|
+  ENTRIES.each_with_index do |b, j|
+    next if i == j  # Don't add an entry to itself
+    if b == 2020 - a
+      puts "#{a} + #{b} = #{a + b}"
+      puts "#{a} * #{b} = #{a * b}"
+    end
   end
 end
 
@@ -49,7 +50,18 @@ end
 #
 # In your expense report, what is the product of the three entries that sum to 2020?
 
-
+ENTRIES.each_with_index do |a, i|
+  ENTRIES.each_with_index do |b, j|
+    next if j == i
+    ENTRIES.each_with_index do |c, k|
+      next if k == i || k == j  # Don't add an entry to itself
+      if c == 2020 - a - b
+        puts "#{a} + #{b} + #{c} = #{a + b + c}"
+        puts "#{a} * #{b} * #{c} = #{a * b * c}"
+      end
+    end
+  end
+end
 
 __END__
 1780
