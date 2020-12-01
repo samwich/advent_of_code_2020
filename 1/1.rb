@@ -24,7 +24,18 @@
 #
 # Of course, your expense report is much larger. Find the two entries that sum to 2020; what do you get if you multiply them together?
 
+sum = 2020
 
+entries = DATA.map { |e| e.to_i }
+
+entries.each do |a|
+  # is assignment in an `if` expression idiomatic?
+  if b = entries.find { |e| e == 2020 - a }
+    puts "#{a} + #{b} = #{a + b}"
+    puts "#{a} * #{b} = #{a * b}"
+    break
+  end
+end
 
 __END__
 1780
