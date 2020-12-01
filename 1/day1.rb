@@ -28,12 +28,18 @@ sum = 2020
 
 ENTRIES = DATA.map { |e| e.to_i }
 
+puzzle_1_complete = false
+
 ENTRIES.each_with_index do |a, i|
+  break if puzzle_1_complete
   ENTRIES.each_with_index do |b, j|
     next if i == j  # Don't add an entry to itself
-    if b == 2020 - a
+    if a + b == 2020
+      puts "Puzzle 1:"
       puts "#{a} + #{b} = #{a + b}"
       puts "#{a} * #{b} = #{a * b}"
+      puzzle_1_complete = true
+      break
     end
   end
 end
@@ -50,18 +56,27 @@ end
 #
 # In your expense report, what is the product of the three entries that sum to 2020?
 
+puzzle_2_complete = false
+
 ENTRIES.each_with_index do |a, i|
+  break if puzzle_2_complete
   ENTRIES.each_with_index do |b, j|
+    break if puzzle_2_complete
     next if j == i
     ENTRIES.each_with_index do |c, k|
       next if k == i || k == j  # Don't add an entry to itself
-      if c == 2020 - a - b
+      if a + b + c == 2020
+        puts "Puzzle 2:"
         puts "#{a} + #{b} + #{c} = #{a + b + c}"
         puts "#{a} * #{b} * #{c} = #{a * b * c}"
+        puzzle_2_complete = true
+        break
       end
     end
   end
 end
+
+# Your puzzle answer was 200878544.
 
 __END__
 1780
