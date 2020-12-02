@@ -63,8 +63,8 @@ puts "AoC 2020 2-1: #{puzzle1_answer}"
 # How many passwords are valid according to the new interpretation of the policies?
 
 def validate_password_2 (input)
-  a = input[:password][input[:from]+1] == input[:character]
-  b = input[:password][input[:to]+1] == input[:character]
+  a = input[:password][input[:from]-1] == input[:character]
+  b = input[:password][input[:to]-1] == input[:character]
   a ^ b
 end
 
@@ -73,6 +73,8 @@ PARSED_DATA.each do |e|
   puzzle2_answer += 1 if validate_password_2(e)
 end
 puts "AoC 2020 2-2: #{puzzle2_answer}"
+
+# Your puzzle answer was 294.
 
 __END__
 16-18 h: hhhhhhhhhhhhhhhhhh
