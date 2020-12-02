@@ -19,17 +19,34 @@
 #
 # How many passwords are valid according to their policies?
 
-valid = 0
-
 def validate_password (input)
-  
+  match = parse(input)
+  range = match[:from]..match[:to]
+  count = match[:password].chars.select { |x| x == match[:character] }.length
+  range.include? count
 end
 
+def parse (input)
+  regex = /(?<from>\d+)-(?<to>\d+) (?<character>[a-z]): (?<password>[a-z]+)/
+  m = regex.match(input)
+  {
+    from:       m[:from].to_i,
+    to:         m[:to].to_i,
+    character:  m[:character],
+    password:   m[:password],
+  }
+end
+
+valid = 0
 DATA.each do |e|
   valid += 1 if validate_password(e)
 end
 
 puts "AoC 2020 2-1: #{valid}"
+
+# Your puzzle answer was 465.
+
+
 
 __END__
 16-18 h: hhhhhhhhhhhhhhhhhh
