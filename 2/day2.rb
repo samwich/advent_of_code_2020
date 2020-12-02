@@ -63,9 +63,11 @@ puts "AoC 2020 2-1: #{puzzle1_answer}"
 # How many passwords are valid according to the new interpretation of the policies?
 
 def validate_password_2 (input)
-  a = input[:password][input[:from]-1] == input[:character]
-  b = input[:password][input[:to]-1] == input[:character]
-  a ^ b
+  position_1 = input[:from]-1
+  position_2 = input[:to]-1
+  found_at_1 = input[:password][position_1] == input[:character]
+  found_at_2 = input[:password][position_2] == input[:character]
+  found_at_1 ^ found_at_2
 end
 
 puzzle2_answer = 0
