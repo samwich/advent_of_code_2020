@@ -34,6 +34,11 @@ class TestSnowMap < Test::Unit::TestCase
     end
   end
   
+  def test_getting_squares_on_a_path
+    snow_map = SnowMap.new("./test_input")
+    assert_equal([".",".",".","#",".",".",".",".",'#'], snow_map.squares_on_slope(3,1))
+  end
+  
   # test discerning between open snow and trees
   # 
 
