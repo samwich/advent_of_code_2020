@@ -35,14 +35,27 @@ class TestSnowMap < Test::Unit::TestCase
     end
   end
   
-  def test_getting_squares_on_a_path
+  def test_get_square_from_row
     snow_map = SnowMap.new("./test_input")
-    assert_equal([".",".",".","#",".",".",".",".",'#'], snow_map.squares_on_slope(3,1))
+    File.open("./test_input") do |f|
+      row = f.readline
+      assert_equal('.', snow_map.get_square(row, 0))
+      assert_equal('.', snow_map.get_square(row, 1))
+      assert_equal('#', snow_map.get_square(row, 2))
+      assert_equal('.', snow_map.get_square(row, 11))
+      assert_equal('.', snow_map.get_square(row, 12))
+      assert_equal('#', snow_map.get_square(row, 13))
+    end
   end
   
-  def test_counting_trees
-    toboggan = Toboggan.new("./test_input", 3, 1)
-    assert_equal(2, toboggan.trees_encountered)
-  end
+  # def test_getting_squares_on_a_path
+  #   snow_map = SnowMap.new("./test_input")
+  #   assert_equal(['.','#','.','#','#','.','#','#','#','#',], snow_map.squares_on_slope(3))
+  # end
+  #
+  # def test_counting_trees
+  #   toboggan = Toboggan.new("./test_input", 3)
+  #   assert_equal(7, toboggan.trees_encountered)
+  # end
   
 end
