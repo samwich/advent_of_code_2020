@@ -54,12 +54,22 @@
 # The pattern repeats to the right forever. Modulus position?
 # "over 3, down 1" just means "input width plus 3". It's telling me how far to seek in the file
 
-class Toboggan
+class SnowMap
   attr_reader :map_width
+  
+  # OPEN_SQUARE = '.'
+  # TREE_SQUARE = '#'
   
   def initialize (map_file_name)
     @map_file_name = map_file_name
     @map_width = File.open(map_file_name) { |f| f.readline.strip.length }
   end
+
+  
   
 end
+
+class Toboggan
+  
+end
+
