@@ -1,5 +1,6 @@
 require 'test/unit'
-require_relative 'part1'
+require_relative 'snow_map'
+require_relative 'toboggan'
 
 class TestSnowMap < Test::Unit::TestCase
   def test_input_width
@@ -39,7 +40,9 @@ class TestSnowMap < Test::Unit::TestCase
     assert_equal([".",".",".","#",".",".",".",".",'#'], snow_map.squares_on_slope(3,1))
   end
   
-  # test discerning between open snow and trees
-  # 
-
+  def test_counting_trees
+    toboggan = Toboggan.new("./test_input", 3, 1)
+    assert_equal(2, toboggan.trees_encountered)
+  end
+  
 end
