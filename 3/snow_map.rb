@@ -12,7 +12,7 @@ class SnowMap
     row[index % map_width]
   end
 
-  def squares_on_slope (over)
+  def squares_on_slope (over, down)
     squares = []
     advance = over + map_width
     position = STARTING_POSITION
