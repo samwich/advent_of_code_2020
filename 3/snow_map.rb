@@ -17,7 +17,12 @@ class SnowMap
     advance = over + map_width
     position = STARTING_POSITION
     File.open(@map_file_name) do |f|
-      
+      # we're already on the first row:
+      f.readline
+      f.lines.each do |row|
+        position += advance
+        squares << row[ position % map_width ]
+      end
     end
     squares
   end
