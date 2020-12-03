@@ -56,3 +56,8 @@
 
 require_relative 'snow_map'
 require_relative 'toboggan'
+
+puts Toboggan.new('./input',3).trees_encountered
+
+# Your puzzle answer was 216.
+
