@@ -51,3 +51,15 @@
 #
 # Starting at the top-left corner of your map and following a slope of right 3 and down 1, how many trees would you encounter?
 
+# The pattern repeats to the right forever. Modulus position?
+# "over 3, down 1" just means "input width plus 3". It's telling me how far to seek in the file
+
+class Toboggan
+  attr_reader :map_width
+  
+  def initialize (map_file_name)
+    @map_file_name = map_file_name
+    @map_width = File.open(map_file_name) { |f| f.readline.strip.length }
+  end
+  
+end
