@@ -58,20 +58,22 @@ class TestSnowMap < Test::Unit::TestCase
     assert_equal(7, toboggan.trees_encountered)
   end
 
-  # def test_other_slopes
-  #   slopes = [
-  #     [1,1,2],
-  #     [3,1,7],
-  #     [5,1,3],
-  #     [7,1,4],
-  #     [1,2,2],
-  #   ]
-  #
-  #   slopes.each do |over, down, trees|
-  #     toboggan = Toboggan.new("./test_input", over, down)
-  #
-  #   end
-  #
-  # end
-  #
+  def test_other_slopes
+    slopes = [
+      [1,1,2],
+      [3,1,7],
+      [5,1,3],
+      [7,1,4],
+      [1,2,2],
+      [1,3,0],
+      [1,4,2],
+    ]
+
+    slopes.each do |over, down, trees|
+      toboggan = Toboggan.new("./test_input", over, down)
+      assert_equal(trees, toboggan.trees_encountered)
+    end
+
+  end
+
 end

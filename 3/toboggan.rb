@@ -10,7 +10,6 @@ class Toboggan
   end
   
   def trees_encountered
-    puts "encountering trees"
     @snow_map.squares_on_slope(@over, @down).filter {|x| x == TREE_SQUARE}.length
   end
 end
