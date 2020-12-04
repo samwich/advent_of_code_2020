@@ -53,6 +53,11 @@ class TestSnowMap < Test::Unit::TestCase
     assert_equal(['.','#','.','#','#','.','#','#','#','#',], snow_map.squares_on_slope(3,1))
   end
 
+  def test_getting_squares_on_a_path_bool
+    snow_map = SnowMap.new("./test_input")
+    assert_equal([false,true,false,true,true,false,true,true,true,true,], snow_map.squares_on_slope_bool(3,1))
+  end
+
   def test_counting_trees
     toboggan = Toboggan.new("./test_input", 3,1)
     assert_equal(7, toboggan.trees_encountered)
@@ -72,6 +77,8 @@ class TestSnowMap < Test::Unit::TestCase
     slopes.each do |over, down, trees|
       toboggan = Toboggan.new("./test_input", over, down)
       assert_equal(trees, toboggan.trees_encountered)
+      toboggan_bool = Toboggan.new("./test_input", over, down)
+      assert_equal(trees, toboggan_bool.trees_encountered_bool)
     end
 
   end

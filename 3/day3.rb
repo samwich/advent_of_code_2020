@@ -58,6 +58,8 @@ require_relative 'snow_map'
 require_relative 'toboggan'
 
 puts "Part 1: #{Toboggan.new('./input', 3, 1).trees_encountered} trees encountered."
+puts "Part 1: #{Toboggan.new('./input', 3, 1).trees_encountered_bool} trees encountered_bool."
+
 
 # Your puzzle answer was 216.
 
@@ -86,7 +88,8 @@ slopes = [
 ]
 
 trees_encountered = slopes.map { |over, down| Toboggan.new('./input', over, down).trees_encountered }.reduce(:*)
-
+trees_encountered_bool = slopes.map { |over, down| Toboggan.new('./input', over, down).trees_encountered_bool }.reduce(:*)
 puts "Part 2: Product of trees encountered on slopes is #{trees_encountered}"
+puts "Part 2: Product of trees encountered on slopes with the array of bools is #{trees_encountered_bool}"
 
 # Your puzzle answer was 6708199680.
