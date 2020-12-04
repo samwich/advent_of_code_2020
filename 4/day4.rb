@@ -128,3 +128,11 @@ puts "Day 4 part 1: #{passports.count{|e|e.valid?}} of #{passports.length} are v
 #
 
 # in `Passport`, add a hash of field names to validation procs and execute them.
+
+passports = BatchFile.new('./input').passports
+
+puts "Day 4 part 2: #{passports.count{|e|e.valid?}} of #{passports.length} are valid."
+
+# guess 180 is too high
+
+# Your puzzle answer was 179.

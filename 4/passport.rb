@@ -26,7 +26,7 @@ class Passport
     end, 
     'hcl' => ->(x) { /^#[0-9a-f]{6}$/.match?(x) }, # hcl (Hair Color) - a # followed by exactly six characters 0-9 or a-f.
     'ecl' => ->(x) { /^(amb|blu|brn|gry|grn|hzl|oth)$/.match? x }, # ecl (Eye Color) - exactly one of: amb blu brn gry grn hzl oth.
-    'pid' => ->(x) { /\d{9}/.match?(x) }, # pid (Passport ID) - a nine-digit number, including leading zeroes.
+    'pid' => ->(x) { /^\d{9}$/.match?(x) }, # pid (Passport ID) - a nine-digit number, including leading zeroes.
     'cid' => ->(x) { true }, # cid (Country ID) - ignored, missing or not.
   }
 
