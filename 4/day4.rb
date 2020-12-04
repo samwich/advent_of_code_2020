@@ -45,5 +45,6 @@
 
 # ignore missing cid
 # classes: BatchFile, BatchRecord, Passport
+# iterate over passports in batchfile with each_passport(&block)
 
 
