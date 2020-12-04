@@ -18,6 +18,7 @@ class Passport
   
   def valid?
     REQUIRED_FIELDS.each do |rf|
+      next if rf == 'cid' # special enhanced scrutiny
       unless @fields[rf]
         return false
       end
