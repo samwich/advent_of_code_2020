@@ -27,6 +27,6 @@ class TestDay4 < Test::Unit::TestCase
   
   def test_passport
     passports = BatchFile.new('./test_input').passports
-    pp passports.map { |e| e.valid? }
+    assert_equal 2, passports.map { |e| e.valid? }.count { |e| e }
   end
 end
