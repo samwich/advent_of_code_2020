@@ -37,13 +37,6 @@
 # BBFFBBFRLL: row 102, column 4, seat ID 820.
 # As a sanity check, look through your list of boarding passes. What is the highest seat ID on a boarding pass?
 
-require_relative 'seat'
-
-File.open('./input') do |f|
-  last_seat = f.each_line.map { |l| Seat.new(l[0,10]).seat_id }.sort.last
-  puts "Day 5, Part 1: last seat is #{last_seat}"
-end
-
 # Your puzzle answer was 885.
 #
 # --- Part Two ---
@@ -57,10 +50,11 @@ end
 # What is the ID of your seat?
 #
 
+require_relative 'seat'
 require_relative 'airplane'
 
 File.open('./input') do |f|
-  empty_seat_id = Airplane.new(f.each_line.map { |l| l[0,10] }).empty_seat_id
-  puts "Day 5, Part 2: Empty seat is #{empty_seat_id}"
+  airplane = Airplane.new(f.each_line.map { |l| l[0,10] })
+  puts "Day 5, Part 1: Last seat id is #{airplane.last_seat.seat_id}"
+  puts "Day 5, Part 2: Empty seat id is #{airplane.empty_seat_id}"
 end
-
