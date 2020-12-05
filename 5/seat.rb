@@ -11,10 +11,8 @@ class Seat
   end
   
   def seat_id
-    seat_id = 0
-    @bits.reverse.each_with_index do |bit, exponent|
-      seat_id += bit * (2 ** exponent)
+    @bits.reverse.each_with_index.reduce(0) do |sum, bit_exp|
+      sum += bit_exp[0] * (2 ** bit_exp[1])
     end
-    seat_id
   end
 end
