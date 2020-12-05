@@ -14,4 +14,6 @@ class TestDay4 < Test::Unit::TestCase
       assert_equal seat, Seat.new(code).seat_id
     end
   end
+  
+  
 end
