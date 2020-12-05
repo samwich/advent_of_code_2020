@@ -37,3 +37,8 @@
 # BBFFBBFRLL: row 102, column 4, seat ID 820.
 # As a sanity check, look through your list of boarding passes. What is the highest seat ID on a boarding pass?
 
+require_relative 'seat'
+
+File.open('./input') do |f|
+  puts f.each_line.map { |l| Seat.new(l[0,10]).seat_id }.sort.last
+end
