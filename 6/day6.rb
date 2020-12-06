@@ -39,9 +39,11 @@
 #
 # For each group, count the number of questions to which anyone answered "yes". What is the sum of those counts?
 
+require 'set'
 require_relative 'batch_file'
 
-puts BatchFile.new('./input').sum_of_yes_counts
+bf = BatchFile.new('./input')
+puts bf.sum_of_yes_counts
 
 # Your puzzle answer was 6714.
 #
@@ -79,3 +81,7 @@ puts BatchFile.new('./input').sum_of_yes_counts
 #
 # For each group, count the number of questions to which everyone answered "yes". What is the sum of those counts?
 #
+
+puts bf.sum_of_intersections
+
+# Your puzzle answer was 3435.

@@ -23,7 +23,21 @@ class BatchFile
     raw_records
   end
   
+  # part 1
   def sum_of_yes_counts
+    # a raw record: ["ab", "a"].join.chars.uniq.length == 2
     raw_records.map { |x| x.join.chars.uniq.length }.sum
   end
+  
+  # part 2
+  def sum_of_intersections
+    raw_records.map do |group|
+      group.map do |record|
+        Set.new record.chars
+      end.reduce do |intersection, set|
+        intersection & set
+      end.length # size of set of intersecting answers for this group
+    end.sum
+  end
+  
 end
