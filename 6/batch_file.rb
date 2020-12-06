@@ -22,4 +22,8 @@ class BatchFile
     raw_records << this_record
     raw_records
   end
+  
+  def sum_of_yes_counts
+    raw_records.map { |x| x.chars.uniq.length }.sum
+  end
 end
