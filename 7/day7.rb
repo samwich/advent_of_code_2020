@@ -31,5 +31,28 @@
 #
 
 # I think each of these rules might describe a node in a tree.
+# Maybe this is about graph traversal? The bag counts could be edge weights? When calculating cost, you would want to multiply by edge weight, rather than adding it.
 
+# Strategies:
+# 
+# parse each rule into something like { 'light red' => { 'bright white' => 1, 'muted yellow' => 2 } }
+# to find 'contains shiny gold >= 1'
+# 
+# option 1: (top-down, brute force)
+# build a full inventory of a bag, and detect whether it has a shiny gold
+# move on to the next top-level bag
+# 
+# option 2: (bottom-up, should avoid)
+# select all bags that directly contain a shiny gold
+# recursively select all bags that can contain them
+# how do I know when I've reached the outer bag? 
+# maybe I just add them to a list of matches and stop trying when I don't find any new matches
+# might have a problem with infinite loop if there is a cycle
+# 
+# option 3: 
+# use an algorithm that I don't know about
+# 
 
+# if this were a directed graph, could I formulate the question as:
+# Give me all of the vertices reachable from 'shiny gold' where the product of edge lengths on the path is at least 1.
+# 
