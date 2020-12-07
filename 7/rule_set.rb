@@ -28,4 +28,12 @@ class RuleSet
     visited
   end
   
+  def bags_contained_in (bag_name)
+    @bags[bag_name].child_rules.reduce(0) do |sum, rules|
+      name = rules[0]
+      count = rules[1]
+      child_bag_count = (count * (1 + bags_contained_in(name)))
+      sum + child_bag_count
+    end
+  end
 end

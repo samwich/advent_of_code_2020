@@ -30,4 +30,11 @@ class TestDay7 < Test::Unit::TestCase
     rs = RuleSet.new('./test_input')
     assert_equal 4, rs.bags_that_can_contain('shiny gold').length
   end
+  
+  def test_sum_of_bags_contained
+    rs1 = RuleSet.new('./test_input')
+    rs2 = RuleSet.new('./test_input2')
+    assert_equal 32, rs1.bags_contained_in('shiny gold')
+    assert_equal 126, rs2.bags_contained_in('shiny gold')
+  end
 end
