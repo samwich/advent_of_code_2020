@@ -58,3 +58,11 @@
 # if this were a directed graph, could I formulate the question as:
 # Give me all of the vertices reachable starting from 'shiny gold' where the product of edge lengths on the path is at least 1.
 # 
+
+require_relative 'bag'
+require_relative 'rule_set'
+
+rs = RuleSet.new('./input')
+puts rs.bags_that_can_contain('shiny gold').length
+
+# Your puzzle answer was 259.
