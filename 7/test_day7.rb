@@ -6,6 +6,8 @@ class TestDay7 < Test::Unit::TestCase
   def test_rule_set
     rs = RuleSet.new('./test_input')
     assert_equal 9, rs.raw_rules.length
+    assert_equal Hash, rs.bags.class
+    assert_equal 9, rs.bags.length
   end
   
   def test_bag_with_2_rules
@@ -22,5 +24,10 @@ class TestDay7 < Test::Unit::TestCase
     rs = RuleSet.new('./test_input')
     bag = Bag.new(rs.raw_rules[7])
     assert_equal({'faded blue' => {}}, bag.rule)
+  end
+  
+  def test_find_reachable_bags
+    rs = RuleSet.new('./test_input')
+    assert_equal 4, rs.bags_that_can_contain('shiny gold').length
   end
 end
