@@ -88,3 +88,8 @@ gamekid.run
 # do I need to rewind the program - run it backwards?
 # I could just brute force flip instructions starting at the beginning of the program.
 # I could skip flipping instructions that haven't been executed.
+
+gamekid2 = GameKid.new('./input', true)
+gamekid2.run
+
+# Your puzzle answer was 1270.
