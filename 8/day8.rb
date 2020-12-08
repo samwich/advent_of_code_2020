@@ -85,3 +85,6 @@ gamekid.run
 # Fix the program so that it terminates normally by changing exactly one jmp (to nop) or nop (to jmp). What is the value of the accumulator after the program terminates?
 #
 
+# do I need to rewind the program - run it backwards?
+# I could just brute force flip instructions starting at the beginning of the program.
+# I could skip flipping instructions that haven't been executed.

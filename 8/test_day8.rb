@@ -25,4 +25,8 @@ class TestDay8 < Test::Unit::TestCase
     assert_equal 5, gamekid.run
   end
   
+  def test_fix
+    gamekid = GameKid.new('./test_input', true)
+    assert_equal 8, gamekid.run
+  end
 end
