@@ -42,3 +42,10 @@
 # Run your copy of the boot code. Immediately before any instruction is executed a second time, what value is in the accumulator?
 #
 
+require_relative 'game_kid'
+gamekid = GameKid.new('./input')
+gamekid.run
+
+# Your puzzle answer was 1475.
+
+
