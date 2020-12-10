@@ -144,3 +144,8 @@ puts part1[1] * part1[3]
 #
 # What is the total number of distinct ways you can arrange the adapters to connect the charging outlet to your device?
 #
+
+part2 = j.path_count
+puts part2
+
+# Your puzzle answer was 173625106649344.

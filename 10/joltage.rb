@@ -1,4 +1,6 @@
 class Joltage
+  attr_reader :path_execution_count
+  
   def initialize (file_name)
     File.open(file_name) do |f|
       @input = f.each_line.map(&:to_i)
@@ -42,18 +44,21 @@ class Joltage
   end
   
   def path_count (node=0)
+    # early return
     if @tree[node][:path_count]
       return @tree[node][:path_count]
     end
-    count = 0
+    @path_execution_count ||= 0
+    @path_execution_count += 1
     children = @tree[node][:children]
-    if children.nil?
-      @tree[node][:path_count] = count
-      return count
+    count = 0
+    if children.length == 0
+      count += 1
     end
-    children.reduce(0) do |sum, c|
+    count += children.reduce(0) do |sum, c|
       sum + path_count(c)
     end
+    @tree[node][:path_count] = count
   end
   
 end

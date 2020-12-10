@@ -34,4 +34,11 @@ class TestJoltage < Test::Unit::TestCase
     j = Joltage.new('./test_input')
     assert_equal(output, j.make_tree(input))
   end
+  
+  def test_path_count
+    j = Joltage.new('./test_input')
+    assert_equal(19208, j.path_count)
+    pp j.path_execution_count
+  end
+  
 end
