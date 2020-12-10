@@ -15,12 +15,12 @@ class Joltage
     distribution = Hash.new { |h,k| h[k] = 0 }
     adaptors.each_with_index do |a, i|
       if adaptors[i+1].nil?
-        distribution[3] += 1 # my device is +3
+        difference = 3 # my device is +3
       else
         difference = adaptors[i+1] - a
-        distribution[difference] += 1
       end
-      # puts "#{a} +#{difference}"
+      distribution[difference] += 1
+      puts "#{a} + #{difference} = #{a + difference}"
     end
     distribution
   end
