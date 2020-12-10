@@ -24,4 +24,23 @@ class Joltage
     end
     distribution
   end
+  
+  def to_tree
+    make_tree adaptors
+  end
+  
+  def make_tree (input)
+    input.append(0) # charging outlet
+    adaptors = input.sort
+    tree = Hash.new { |h,k| h[k] = [] }
+    adaptors.each_with_index do |a,i|
+      adaptors[i+1, 3].each do |candidate|
+        if candidate <= (a + 3)
+          tree[a] << candidate
+        end
+      end
+    end
+    tree
+  end
+  
 end
