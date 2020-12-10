@@ -18,6 +18,20 @@ class Decoder
     end
   end
   
+  def find_contiguous_set (number)
+    (0..@entries.length).each do |first_index|
+      sum = @entries[first_index]
+      cursor = first_index + 1
+      while sum < number
+        sum += @entries[cursor]
+        if sum == number
+          return @entries[first_index..cursor]
+        end
+        cursor += 1
+      end
+    end
+  end
+  
   def find_two_sum (first_index, last_index, sum_index)
     candidates = {}
     i = first_index

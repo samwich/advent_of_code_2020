@@ -16,4 +16,8 @@ class TestDay9 < Test::Unit::TestCase
     assert_equal 127, d.find_problem
   end
   
+  def test_find_contiguous_set
+    d = Decoder.new('./test_input', 5)
+    assert_equal [15,25,47,40], d.find_contiguous_set(127)
+  end
 end
