@@ -47,7 +47,9 @@
 #
 require_relative 'decoder'
 d = Decoder.new('./input', 25)
-puts d.find_problem
+problem = d.find_problem
+
+puts "Day 9 Part 1: #{problem}"
 
 # Your puzzle answer was 18272118.
 #
@@ -84,3 +86,7 @@ puts d.find_problem
 # What is the encryption weakness in your XMAS-encrypted list of numbers?
 #
 
+contiguous_set = d.find_contiguous_set(problem)
+smallest = contiguous_set.sort.first
+largest = contiguous_set.sort.last
+puts "Day 9 Part 2: #{smallest + largest}"

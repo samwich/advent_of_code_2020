@@ -9,9 +9,8 @@ class Decoder
   def find_problem
     (@window_size..(@entries.length - 1)).each_with_index do |e, i|
       first_index = i
-      last_index = i + @window_size # I think this is off by 1
+      last_index = i + @window_size
       sum_index = last_index + 1
-      # puts "Trying #{@entries[sum_index]}"
       puts "Checking #{i} of #{@entries.length}"
       next if find_two_sum(first_index, last_index, sum_index)
       return @entries[sum_index]
