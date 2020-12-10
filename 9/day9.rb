@@ -45,4 +45,9 @@
 #
 # The first step of attacking the weakness in the XMAS data is to find the first number in the list (after the preamble) which is not the sum of two of the 25 numbers before it. What is the first number that does not have this property?
 #
+require_relative 'decoder'
+d = Decoder.new('./input', 25)
+puts d.find_problem
+
+# Your puzzle answer was 18272118.
 
