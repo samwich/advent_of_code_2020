@@ -13,9 +13,21 @@ class TestSeating < Test::Unit::TestCase
     s = Seating.new('./test0')
     after1 = s.read_file('./test1')
     after2 = s.read_file('./test2')
+    after3 = s.read_file('./test3')
+    after4 = s.read_file('./test4')
+    after5 = s.read_file('./test5')
     s.process_board
     assert_equal(after1, s.before)
     s.process_board
     assert_equal(after2, s.before)
+    s.process_board
+    assert_equal(after3, s.before)
+    s.process_board
+    assert_equal(after4, s.before)
+    s.process_board
+    assert_equal(after5, s.before)
+    # shouldn't change after that iteration
+    s.process_board
+    assert_equal(after5, s.before)
   end
 end
