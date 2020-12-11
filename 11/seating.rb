@@ -1,14 +1,16 @@
 class Seating
   attr_reader :before
   
-  def initialize (file_name, neighborhood: :moore, die: 4)
+  def initialize (file_name, neighborhood: :moore, stand_up: 4, print_boards: false)
     @before = read_file(file_name)
-    @after = Array.new(@before.length) { Array.new(@before.first.length) }
+    @height, @width = @before.length, @before.first.length
+    @after = Array.new(@height) { Array.new(@width) }
     @iteration = 0
-    @neighborhood, @die = neighborhood, die
+    @neighborhood, @stand_up, @print_boards = neighborhood, stand_up, print_boards
+    print_board(@before) if @print_boards
   end
   
-  def neighborhood (row, column)
+  def moore (row, column)
     # A negative Array index means access starting at the end, not beyond the beginning.
     # make sure low_column is not -1
     if column == 0
@@ -41,20 +43,53 @@ class Seating
     result
   end
   
-  def asterisk
-    # n, ne, e, se, s, sw, w, nw
+  def asterisk (row, column)
+    n = -1
+    s = 1
+    e = 1
+    w = -1
+    directions = {
+      e:  [0, e],
+      se: [s, e],
+      s:  [s, 0],
+      sw: [s, w],
+      w:  [0, w],
+      nw: [n, w],
+      n:  [n, 0],
+      ne: [n, e],
+    }
+    result = []
+    directions.values.each do |v_mov, h_mov|
+      v, h = row, column
+      while true
+        # pp [v,h]
+        # skip floor tiles (nil), and don't count my cell
+        unless @before[v][h].nil? || ([v, h] == [row, column])
+          result << @before[v][h]
+          break
+        end
+        h += h_mov
+        v += v_mov
+        unless (0..(@height-1)).include?(v) && (0..(@width-1)).include?(h)
+          break
+        end
+      end
+    end
+    
+    # pp result
+    result
   end
   
   def value_for (row, column)
     cell_value = @before[row][column]
     return nil if cell_value.nil? # empty floor space
     
-    neighbor_count = neighborhood(row, column).flatten.compact.sum
+    neighbor_count = send(@neighborhood, row, column).flatten.compact.sum
     
     # puts "cell_value #{cell_value} neighbor_count #{neighbor_count}"
     if cell_value == 0 && neighbor_count == 0
       1
-    elsif cell_value == 1 && neighbor_count >= @die
+    elsif cell_value == 1 && neighbor_count >= @stand_up
       0
     else
       cell_value
@@ -75,9 +110,12 @@ class Seating
     if @before == @after
       return @iteration
     end
+    
     # swap before and after boards
     @before, @after = @after, @before
     @iteration += 1
+
+    print_board(@before) if @print_boards
   end
   
   def run_to_stable
@@ -88,6 +126,21 @@ class Seating
   
   def count_occupied
     @before.flatten.compact.sum
+  end
+  
+  def print_board (board)
+    puts "Iteration #{@iteration}"
+    board.each do |row|
+      y = row.map do |x|
+        {
+          nil => '.',
+          0   => 'L',
+          1   => '#',
+        }[x]
+      end
+      puts y.join(' ')
+      puts ''
+    end
   end
   
   def read_file (file_name)
