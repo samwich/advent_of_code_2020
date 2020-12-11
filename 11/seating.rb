@@ -76,8 +76,14 @@ class Seating
     @iteration += 1
   end
   
-  def next
-    
+  def run_to_stable
+    while @before != @after
+      process_board
+    end
+  end
+  
+  def count_occupied
+    @before.flatten.compact.sum
   end
   
   def read_file (file_name)

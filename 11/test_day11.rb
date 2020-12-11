@@ -30,4 +30,10 @@ class TestSeating < Test::Unit::TestCase
     s.process_board
     assert_equal(after5, s.before)
   end
+  
+  def test_run_to_stable_and_count_occupied
+    s = Seating.new('./test0')
+    s.run_to_stable
+    assert_equal(37, s.count_occupied)
+  end
 end
