@@ -83,3 +83,11 @@
 #
 # Simulate your seating area by applying the seating rules repeatedly until no seats change state. How many seats end up occupied?
 #
+
+require_relative 'seating'
+
+s = Seating.new('./input')
+s.run_to_stable
+puts "Day 11 Part 1: #{s.count_occupied}"
+
+# Your puzzle answer was 2489.
