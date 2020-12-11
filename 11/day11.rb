@@ -200,3 +200,8 @@ puts "Day 11 Part 1: #{s.count_occupied}"
 # Given the new visibility method and the rule change for occupied seats becoming empty, once equilibrium is reached, how many seats end up occupied?
 #
 
+s2 = Seating.new('./input', neighborhood: :asterisk, stand_up: 5)
+s2.run_to_stable
+puts "Day 11 Part 2: #{s2.count_occupied}"
+
+# Your puzzle answer was 2180.
