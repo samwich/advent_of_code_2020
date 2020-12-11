@@ -9,11 +9,13 @@ class TestSeating < Test::Unit::TestCase
     assert_equal(10, s.before.first.length)
   end
   
-  def test_iteration_1
+  def test_iterations
     s = Seating.new('./test0')
-    after = s.read_file('./test1')
-    # pp after
+    after1 = s.read_file('./test1')
+    after2 = s.read_file('./test2')
     s.process_board
-    assert_equal(after, s.before)
+    assert_equal(after1, s.before)
+    s.process_board
+    assert_equal(after2, s.before)
   end
 end

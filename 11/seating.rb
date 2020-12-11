@@ -8,14 +8,35 @@ class Seating
   end
   
   def neighborhood (row, column)
+    # A negative Array index means access starting at the end, not beyond the beginning.
+    # make sure low_column is not -1
+    if column == 0
+      low_column = 0
+    else
+      low_column = column - 1
+    end
+    high_row = row + 1
+    high_column = column + 1
+    
     result = []
-    if @before[row - 1]
-      result << @before[row - 1][column - 1, 3]
+    # the row above me
+    unless row == 0
+      result << @before[row - 1][(low_column)..(high_column)]
     end
-    result << [@before[row][column - 1], @before[row][column + 1]]
-    if @before[row + 1]
-      result << @before[row + 1][column - 1, 3]
+    
+    # cell to my left
+    unless column == 0
+      result << @before[row][low_column]
     end
+    
+    # cell to my right
+    result << @before[row][high_column]
+    
+    # the row below me
+    if @before[high_row]
+      result << @before[high_row][(low_column)..(high_column)]
+    end
+
     result
   end
   
@@ -28,7 +49,7 @@ class Seating
     # puts "cell_value #{cell_value} neighbor_count #{neighbor_count}"
     if cell_value == 0 && neighbor_count == 0
       1
-    elsif cell_value = 1 &&  neighbor_count >= 4
+    elsif cell_value == 1 && neighbor_count >= 4
       0
     else
       cell_value
@@ -38,7 +59,7 @@ class Seating
   def process_board
     # iterate over cells, assigning values for each
     @before.each_with_index do |row, row_i|
-      puts "Row #{row_i}"
+      # puts "Row #{row_i}"
       row.each_index do |column|
         new_value = value_for(row_i, column)
         @after[row_i][column] = new_value
