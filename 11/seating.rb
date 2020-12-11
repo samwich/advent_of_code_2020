@@ -1,10 +1,11 @@
 class Seating
   attr_reader :before
   
-  def initialize (file_name)
+  def initialize (file_name, neighborhood: :moore, die: 4)
     @before = read_file(file_name)
     @after = Array.new(@before.length) { Array.new(@before.first.length) }
     @iteration = 0
+    @neighborhood, @die = neighborhood, die
   end
   
   def neighborhood (row, column)
@@ -40,6 +41,10 @@ class Seating
     result
   end
   
+  def asterisk
+    # n, ne, e, se, s, sw, w, nw
+  end
+  
   def value_for (row, column)
     cell_value = @before[row][column]
     return nil if cell_value.nil? # empty floor space
@@ -49,7 +54,7 @@ class Seating
     # puts "cell_value #{cell_value} neighbor_count #{neighbor_count}"
     if cell_value == 0 && neighbor_count == 0
       1
-    elsif cell_value == 1 && neighbor_count >= 4
+    elsif cell_value == 1 && neighbor_count >= @die
       0
     else
       cell_value
@@ -68,7 +73,6 @@ class Seating
     
     # compare before and after boards for stability
     if @before == @after
-      puts "no change"
       return @iteration
     end
     # swap before and after boards
