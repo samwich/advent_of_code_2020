@@ -58,8 +58,8 @@ class Seating
     result = []
     (low_row..high_row).each do |r|
       (low_column..high_column).each do |c|
-        next if [r, c] == [row, column]
-        next if @before[r,c].nil?
+        next if [r, c] == [row, column] # skip my tile
+        next if @before[r,c].nil? # skip floor tiles
         result << [r, c]
       end
     end
@@ -71,7 +71,7 @@ class Seating
   end
   
   def asterisk (row, column)
-    result = 0
+    result = []
     ASTERISK_DIRECTIONS.each do |v_mov, h_mov|
       v, h = row, column
       while true
@@ -82,18 +82,14 @@ class Seating
         end
         # skip floor tiles (nil)
         unless @before[v][h].nil?
-          result += @before[v][h]
+          result << [v, h]
           break
         end
-      end
-      # stop checking after we meet @stand_up
-      if result >= @stand_up
-        break
       end
     end
     
     # pp result
-    [result]
+    result
   end
   
   def value_for (row, column)

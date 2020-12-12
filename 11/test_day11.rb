@@ -38,7 +38,7 @@ class TestSeating < Test::Unit::TestCase
   end
   
   def test_iterations_part2
-    s = Seating.new('./test0', neighborhood: :asterisk, stand_up: 5, print_boards: true)
+    s = Seating.new('./test0', neighborhood: :asterisk, stand_up: 5, print_boards: false)
     after1 = s.read_file('./test1_part2')
     after2 = s.read_file('./test2_part2')
     after3 = s.read_file('./test3_part2')
@@ -63,7 +63,7 @@ class TestSeating < Test::Unit::TestCase
   end
 
   def test_run_to_stable_and_count_occupied_part2
-    s = Seating.new('./test0', neighborhood: :asterisk, stand_up: 5, print_boards: true)
+    s = Seating.new('./test0', neighborhood: :asterisk, stand_up: 5, print_boards: false)
     s.run_to_stable
     assert_equal(26, s.count_occupied)
   end
