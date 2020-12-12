@@ -1,4 +1,15 @@
 class Seating
+  ASTERISK_DIRECTIONS = [
+    [0, 1],
+    [1, 1],
+    [1, 0],
+    [1, -1],
+    [0, -1],
+    [-1, -1],
+    [-1, 0],
+    [-1, 1],
+  ]
+
   attr_reader :before
   
   def initialize (file_name, neighborhood: :moore, stand_up: 4, print_boards: false)
@@ -44,40 +55,29 @@ class Seating
   end
   
   def asterisk (row, column)
-    n = -1
-    s = 1
-    e = 1
-    w = -1
-    directions = {
-      e:  [0, e],
-      se: [s, e],
-      s:  [s, 0],
-      sw: [s, w],
-      w:  [0, w],
-      nw: [n, w],
-      n:  [n, 0],
-      ne: [n, e],
-    }
-    result = []
-    directions.values.each do |v_mov, h_mov|
+    result = 0
+    ASTERISK_DIRECTIONS.each do |v_mov, h_mov|
       v, h = row, column
       while true
-        # pp [v,h]
-        # skip floor tiles (nil), and don't count my cell
-        unless @before[v][h].nil? || ([v, h] == [row, column])
-          result << @before[v][h]
-          break
-        end
         h += h_mov
         v += v_mov
         unless (0..(@height-1)).include?(v) && (0..(@width-1)).include?(h)
           break
         end
+        # skip floor tiles (nil)
+        unless @before[v][h].nil?
+          result += @before[v][h]
+          break
+        end
+      end
+      # stop checking after we meet @stand_up
+      if result >= @stand_up
+        break
       end
     end
     
     # pp result
-    result
+    [result]
   end
   
   def value_for (row, column)
