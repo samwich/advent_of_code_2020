@@ -25,7 +25,10 @@ class Ship
       if command == 'F'
         forward(distance)
       elsif 'LR'.include?(command)
-        turn(command)
+        turn_n = distance / 90
+        turn_n.times do
+          turn(command)
+        end
       else
         move(command, distance)
       end

@@ -34,3 +34,12 @@
 # Figure out where the navigation instructions lead. What is the Manhattan distance between that location and the ship's starting position?
 #
 
+require_relative 'ship'
+s = Ship.new('./input')
+s.navigate
+puts "Day 12 Part 1: #{s.manhatten}"
+
+# 625 is too low
+
+# Your puzzle answer was 2847.
+
