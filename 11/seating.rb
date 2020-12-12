@@ -18,38 +18,54 @@ class Seating
     @after = Array.new(@height) { Array.new(@width) }
     @iteration = 0
     @neighborhood, @stand_up, @print_boards = neighborhood, stand_up, print_boards
+    @neighbors = Array.new(@height) { Array.new(@width) }
+    compute_neighbors
+    # pp @neighbors
     print_board(@before) if @print_boards
   end
   
+  def compute_neighbors
+    @before.each_with_index do |row, row_i|
+      row.each_index do |column_i|
+        @neighbors[row_i][column_i] = send(@neighborhood, row_i, column_i)
+      end
+    end
+  end
+  
   def moore (row, column)
-    # A negative Array index means access starting at the end, not beyond the beginning.
-    # make sure low_column is not -1
+    if row == 0
+      low_row = 0
+      high_row = row + 1
+    elsif row == (@height - 1)
+      low_row = row - 1
+      high_row = @height - 1
+    else
+      low_row = row - 1
+      high_row = row + 1
+    end
+
     if column == 0
       low_column = 0
+      high_column = column + 1
+    elsif column == (@width - 1)
+      low_column = column - 1
+      high_column = @width - 1
     else
       low_column = column - 1
+      high_column = column + 1
     end
-    high_row = row + 1
-    high_column = column + 1
     
     result = []
-    # the row above me
-    unless row == 0
-      result << @before[row - 1][(low_column)..(high_column)]
+    (low_row..high_row).each do |r|
+      (low_column..high_column).each do |c|
+        next if [r, c] == [row, column]
+        next if @before[r,c].nil?
+        result << [r, c]
+      end
     end
-    
-    # cell to my left
-    unless column == 0
-      result << @before[row][low_column]
-    end
-    
-    # cell to my right
-    result << @before[row][high_column]
-    
-    # the row below me
-    if @before[high_row]
-      result << @before[high_row][(low_column)..(high_column)]
-    end
+
+    # puts "neighbors for #{row}, #{column} are"
+    # pp result
 
     result
   end
@@ -84,7 +100,16 @@ class Seating
     cell_value = @before[row][column]
     return nil if cell_value.nil? # empty floor space
     
-    neighbor_count = send(@neighborhood, row, column).flatten.compact.sum
+    # puts "row #{row} column #{column}"
+    # pp @neighbors[row][column].map { |a,b| @before[a][b] }
+    neighbor_count = @neighbors[row][column].reduce(0) do |sum, n|
+      x = @before[n[0]][n[1]]
+      if x.nil?
+        sum
+      else
+        sum + x
+      end
+    end
     
     # puts "cell_value #{cell_value} neighbor_count #{neighbor_count}"
     if cell_value == 0 && neighbor_count == 0
