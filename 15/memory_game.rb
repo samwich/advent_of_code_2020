@@ -40,7 +40,7 @@ class MemoryGame
   end
   
   def say (n)
-    puts "#{n}!"
+    # puts "#{n}!"
     @numbers << n
     @n_history[n] << @turn
     n
