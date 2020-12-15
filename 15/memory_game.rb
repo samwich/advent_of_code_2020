@@ -43,6 +43,9 @@ class MemoryGame
     # puts "#{n}!"
     @numbers << n
     @n_history[n] << @turn
+    if @n_history[n][-3]
+      @n_history[n].shift
+    end
     n
   end
   
