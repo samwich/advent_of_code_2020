@@ -38,3 +38,10 @@
 #
 # Your puzzle input is 1,2,16,19,18,0.
 
+require_relative 'memory_game'
+
+mg = MemoryGame.new([1,2,16,19,18,0])
+puts "Day 15 Part 1: #{mg.play}"
+
+# Your puzzle answer was 536.
+
