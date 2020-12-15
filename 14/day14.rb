@@ -37,3 +37,9 @@
 #
 # Execute the initialization program. What is the sum of all values left in memory after it completes?
 #
+
+require_relative 'machine'
+
+m = Machine.new('./input')
+m.run
+puts "Day 14 Part 1: #{m.memory_sum}"

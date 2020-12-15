@@ -1,5 +1,5 @@
 class Machine
-  PARSE_REGEXP=/^mask = (?<mask>[X01]+)$|^mem\[(?<memaddr>[0-9]+)\] = (?<memval>[01]+)$/
+  PARSE_REGEXP=/^mask = (?<mask>[X01]+)$|^mem\[(?<memaddr>[0-9]+)\] = (?<memval>[0-9]+)$/
   attr_reader :instructions, :memory
   
   def initialize (file_name)
