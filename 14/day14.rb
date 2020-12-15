@@ -93,3 +93,10 @@ puts "Day 14 Part 1: #{m.memory_sum}"
 #
 # Execute the initialization program using an emulator for a version 2 decoder chip. What is the sum of all values left in memory after it completes?
 #
+require_relative 'machine2'
+
+m = Machine2.new('./input')
+m.run
+puts "Day 14 Part 2: #{m.memory_sum}"
+
+# Your puzzle answer was 4215284199669.
