@@ -49,14 +49,15 @@ class TicketValidator
   end
   
   def combine_ranges (ranges)
-    me = ranges.last
-    overlaps, separates = ranges.partition { |x| overlap?(me, x) }
-    result = [overlaps.reduce { |x,y| combine(x, y) }]
-    
-    if separates.empty?
-      result
-    else
-      result += combine_ranges(separates)
+    ranges.sort.reduce([]) do |combined,r|
+      if combined.empty?
+        combined << r
+      elsif overlap?(combined[-1], r)
+        combined[-1] = combine(combined[-1], r)
+        combined
+      else
+        combined << r
+      end
     end
   end
   
