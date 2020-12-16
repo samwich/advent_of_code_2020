@@ -38,3 +38,6 @@
 #
 # Consider the validity of the nearby tickets you scanned. What is your ticket scanning error rate?
 #
+require_relative 'ticket_validator'
+tv = TicketValidator.new('./input')
+tv.run_combine_ranges

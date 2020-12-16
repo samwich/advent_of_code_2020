@@ -8,7 +8,10 @@ class TicketValidator
         l = f.readline
         break if l.strip.empty?
         matches = RULE_REGEXP.match(l)
-        @rules[matches[1]] = [[matches[2],matches[3]],[matches[4],matches[5]]]
+        @rules[matches[1]] = [
+          [matches[2].to_i,matches[3].to_i],
+          [matches[4].to_i,matches[5].to_i]
+        ]
       end
       
       while true
@@ -31,7 +34,45 @@ class TicketValidator
       
     end
     pp @rules
-    pp @your_ticket
-    pp @nearby_tickets
+    # pp @your_ticket
+    # pp @nearby_tickets
   end
+  
+  def run_combine_ranges
+    ranges = @rules.reduce([]) do |acc, h|
+      acc << h[1][0]
+      acc << h[1][1]
+    end
+    
+    pp combine_ranges(ranges)
+    puts "END run_combine_ranges"
+  end
+  
+  def combine_ranges (ranges)
+    me = ranges.last
+    overlaps, separates = ranges.partition { |x| overlap?(me, x) }
+    result = [overlaps.reduce { |x,y| combine(x, y) }]
+    
+    if separates.empty?
+      result
+    else
+      result += combine_ranges(separates)
+    end
+  end
+  
+  def overlap? (a, b)
+    a1, a2 = a
+    b1, b2 = b
+    (a1..a2).include?(b1) ||  
+    (a1..a2).include?(b2) ||  
+    (b1..b2).include?(a1) || 
+    (b1..b2).include?(a2)
+  end
+  
+  def combine (a, b)
+    a1, a2 = a
+    b1, b2 = b
+    result = [ [a1, b1].min, [a2, b2].max ]
+  end
+  
 end
