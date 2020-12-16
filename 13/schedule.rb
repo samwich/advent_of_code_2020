@@ -37,45 +37,28 @@ class Schedule
     
     remainders = congruences.map(&:first)
     mods = congruences.map(&:last)
-    little_m = mods.reduce(&:*)
-    puts "little_m (product of mods) #{little_m}"
-    big_ms = mods.map { |m| little_m / m }
-    puts "big_ms"
-    pp big_ms
-    
-    inverses = mods.map { |m| puts m; inverse(1,m) }
+    # little_m = mods.reduce(&:*)
+    # puts "little_m (product of mods) #{little_m}"
+    # big_ms = mods.map { |m| little_m / m }
+    # puts "big_ms"
+    # pp big_ms
+    #
+    # inverses = mods.map { |m| puts m; inverse(1,m) }
     
     # sum of all a * M * y and then mod by little m
-    
+
+    pp mods
+    pp remainders
+
+    p chinese_remainder([3,5,7], [2,3,2])     #=> 23
+    p chinese_remainder([17353461355013928499, 3882485124428619605195281, 13563122655762143587], [7631415079307304117, 1248561880341424820456626, 2756437267211517231]) #=> 937307771161836294247413550632295202816
+    p chinese_remainder([10,4,9], [11,22,19]) #=> nil
+
+
+    # https://rosettacode.org/wiki/Chinese_remainder_theorem#Ruby
+    chinese_remainder(mods, remainders)
   end
 
-  # taken from https://github.com/bsounak/Aoc2020/blob/main/day13.py
-  def inverse (a, n)
-    t = 0
-    new_t = 1
-    r = n
-    new_r = a
-    
-    while new_r >= 0
-      puts "beginning of while"
-      puts Time.now
-      quotient = r % new_r
-      puts quotient
-      puts "new_r #{new_r}"
-      t, new_t = new_t, t - quotient * new_t
-      r, new_r = new_r, r - quotient * new_r
-      puts "end of while"
-    end
-    
-    puts "t #{t}"
-    raise "#{a} = 1(mod #{n}) is not invertible" if r > 1
-    
-    if t < 0
-      t += n
-    end
-    
-    return t
-  end
 
   def find_subsequent
     result = false
@@ -102,4 +85,33 @@ class Schedule
       end
     end
   end
+  
+  # https://rosettacode.org/wiki/Chinese_remainder_theorem#Ruby
+  def extended_gcd(a, b)
+    last_remainder, remainder = a.abs, b.abs
+    x, last_x, y, last_y = 0, 1, 1, 0
+    while remainder != 0
+      last_remainder, (quotient, remainder) = remainder, last_remainder.divmod(remainder)
+      x, last_x = last_x - quotient*x, x
+      y, last_y = last_y - quotient*y, y
+    end
+    return last_remainder, last_x * (a < 0 ? -1 : 1)
+  end
+ 
+  # https://rosettacode.org/wiki/Chinese_remainder_theorem#Ruby
+  def invmod(e, et)
+    g, x = extended_gcd(e, et)
+    if g != 1
+      raise 'Multiplicative inverse modulo does not exist!'
+    end
+    x % et
+  end
+ 
+  # https://rosettacode.org/wiki/Chinese_remainder_theorem#Ruby
+  def chinese_remainder(mods, remainders)
+    max = mods.inject( :* )  # product of all moduli
+    series = remainders.zip(mods).map{ |r,m| (r * max * invmod(max/m, m) / m) }
+    series.inject( :+ ) % max 
+  end
+  
 end
