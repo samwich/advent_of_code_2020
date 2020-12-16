@@ -38,14 +38,30 @@ class TicketValidator
     # pp @nearby_tickets
   end
   
+  def ticket_scanning_error_rate
+    ranges = run_combine_ranges
+    @nearby_tickets.reduce([]) do |acc, fields|
+      acc << fields.select do |field|
+        result = true
+        ranges.each do |a,b|
+          if (a..b).include?(field)
+            result = false
+            break
+          end
+        end
+        
+        result
+      end
+    end.flatten.sum
+  end
+  
   def run_combine_ranges
     ranges = @rules.reduce([]) do |acc, h|
       acc << h[1][0]
       acc << h[1][1]
     end
     
-    pp combine_ranges(ranges)
-    puts "END run_combine_ranges"
+    combine_ranges(ranges)
   end
   
   def combine_ranges (ranges)

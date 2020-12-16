@@ -40,4 +40,6 @@
 #
 require_relative 'ticket_validator'
 tv = TicketValidator.new('./input')
-tv.run_combine_ranges
+puts "Day 16 Part 1: #{tv.ticket_scanning_error_rate}"
+
+# Your puzzle answer was 32842.
