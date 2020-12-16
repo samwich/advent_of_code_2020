@@ -33,25 +33,35 @@ class TicketValidator
       end
       
     end
-    pp @rules
-    # pp @your_ticket
-    # pp @nearby_tickets
+    
+    @combined_ranges = run_combine_ranges
+    @valid_tickets = validate_tickets
+    pp @valid_tickets
+  end
+  
+  def validate_tickets
+    @nearby_tickets.select do |t|
+      bad_fields_for_ticket(t).flatten.empty?
+    end
+  end
+  
+  def bad_fields_for_ticket ticket
+    ticket.select do |field|
+      result = true
+      @combined_ranges.each do |a,b|
+        if (a..b).include?(field)
+          result = false
+          break
+        end
+      end
+  
+      result
+    end
   end
   
   def ticket_scanning_error_rate
-    ranges = run_combine_ranges
     @nearby_tickets.reduce([]) do |acc, fields|
-      acc << fields.select do |field|
-        result = true
-        ranges.each do |a,b|
-          if (a..b).include?(field)
-            result = false
-            break
-          end
-        end
-        
-        result
-      end
+      acc << bad_fields_for_ticket(fields)
     end.flatten.sum
   end
   
