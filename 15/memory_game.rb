@@ -4,7 +4,7 @@ class MemoryGame
   def initialize (input, last_turn=2020)
     @last_turn = last_turn
     @turn = 0
-    @n_history = Hash.new { |h,k| h[k] = [] }
+    @n_history = Hash.new { |h,k| h[k] = [nil,nil] }
     @numbers = []
     input.each do |n|
       @turn += 1
@@ -42,10 +42,8 @@ class MemoryGame
   def say (n)
     # puts "#{n}!"
     @numbers << n
-    @n_history[n] << @turn
-    if @n_history[n][-3]
-      @n_history[n].shift
-    end
+    @n_history[n][0] = @n_history[n][1]
+    @n_history[n][1] = @turn
     n
   end
   
