@@ -114,4 +114,8 @@ puts "Day 13 Part 1: #{answer}"
 
 # What is the earliest timestamp such that all of the listed bus IDs depart at offsets matching their positions in the list?
 
-puts "Day 13 part 2: #{s.find_subsequent}"
+puts "Day 13 part 2: #{s.solve_subsequent}"
+
+# 455622713031375 is too low
+
+# Your puzzle answer was 905694340256752.

@@ -43,4 +43,26 @@ class TestSchedule < Test::Unit::TestCase
     s.buses_with_x = [17,0,13,19]
     assert_equal(3417, s.solve_subsequent)
   end
+  
+  def test_solve_successors2
+    s = Schedule.new('./test_input')
+    s.buses_with_x = [67,7,59,61]
+    assert_equal(754018, s.solve_subsequent)
+  end
+  def test_solve_successors3
+    s = Schedule.new('./test_input')
+    s.buses_with_x = [67,0,7,59,61]
+    assert_equal(779210, s.solve_subsequent)
+  end
+  def test_solve_successors4
+    s = Schedule.new('./test_input')
+    s.buses_with_x = [67,7,0,59,61]
+    assert_equal(1261476, s.solve_subsequent)
+  end
+  def test_solve_successors5
+    s = Schedule.new('./test_input')
+    s.buses_with_x = [1789,37,47,1889]
+    assert_equal(1202161486, s.solve_subsequent)
+  end
+
 end

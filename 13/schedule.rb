@@ -27,9 +27,20 @@ class Schedule
   end
 
   def solve_subsequent
+    
+    # all_buses_with_depart_times = @buses_with_x.each_with_index.map { |b, i| [b, b.zero? ? 0 : -i % b] }.reject { |p| p.first.zero? }
+    #
+    # puts "@buses_with_x and all_buses_with_depart_times"
+    # pp @buses_with_x
+    # pp all_buses_with_depart_times
+    
+    
+    # (-i % bus) for the remainder is from
+    # https://www.reddit.com/r/adventofcode/comments/kc4njx/2020_day_13_solutions/gfrw3ms/
     congruences = @buses_with_x.each_with_index.map do |bus, i|
-      puts "#{i} (mod #{bus})"
-      [i, bus]
+      # puts "#{i} (mod #{bus})"
+      r = bus.zero? ? 0 : -i % bus
+      [r, bus]
     end.reject {|x| x.last == 0}
     
     puts "congruences"
@@ -47,12 +58,13 @@ class Schedule
     
     # sum of all a * M * y and then mod by little m
 
-    pp mods
-    pp remainders
-
-    p chinese_remainder([3,5,7], [2,3,2])     #=> 23
-    p chinese_remainder([17353461355013928499, 3882485124428619605195281, 13563122655762143587], [7631415079307304117, 1248561880341424820456626, 2756437267211517231]) #=> 937307771161836294247413550632295202816
-    p chinese_remainder([10,4,9], [11,22,19]) #=> nil
+    # pp mods
+    # pp remainders
+    #
+    # p chinese_remainder([3,5,7], [2,3,2])     #=> 23
+    # p chinese_remainder([17353461355013928499, 3882485124428619605195281, 13563122655762143587], [7631415079307304117, 1248561880341424820456626, 2756437267211517231]) #=> 937307771161836294247413550632295202816
+    # # p chinese_remainder([10,4,9], [11,22,19]) #=> nil
+    # p chinese_remainder([1789, 37, 47, 1889], [0, 1, 2, 3]) # 1202161486 ?
 
 
     # https://rosettacode.org/wiki/Chinese_remainder_theorem#Ruby
