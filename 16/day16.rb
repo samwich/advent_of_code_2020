@@ -67,3 +67,7 @@ puts "Day 16 Part 1: #{tv.ticket_scanning_error_rate}"
 #
 # Once you work out which field is which, look for the six fields on your ticket that start with the word departure. What do you get if you multiply those six values together?
 #
+
+puts "Day 16 Part 2: #{tv.departure_fields_product}"
+
+# Your puzzle answer was 2628667251989.

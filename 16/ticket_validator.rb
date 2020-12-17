@@ -1,5 +1,6 @@
 class TicketValidator
   RULE_REGEXP = /^([a-z ]+): (\d+)-(\d+) or (\d+)-(\d+)$/
+  DEPARTURE_REGEX = /^departure/
   
   def initialize (file_name)
     File.open(file_name) do |f|
@@ -36,7 +37,79 @@ class TicketValidator
     
     @combined_ranges = run_combine_ranges
     @valid_tickets = validate_tickets
-    pp @valid_tickets
+    # pp @valid_tickets
+  end
+  
+  def departure_fields_product
+    rule_positions.select do |name,index|
+      DEPARTURE_REGEX.match? name
+    end.map do |k,v|
+      @your_ticket[v]
+    end.reduce(&:*)
+  end
+  
+  def rule_positions
+    cwr = columns_with_rules
+    
+    while true
+      @valid_tickets.first.each_index do |i|
+        if cwr[i].keys.length == 1
+          rule_name = cwr[i].keys.first
+          cwr.each do |k,v|
+            next if k == i
+            cwr[k].delete(rule_name)
+          end
+        end
+      end
+      break if cwr.values.map(&:keys).flatten.length == @valid_tickets.first.length
+    end
+
+    # puts "cwr"
+    # pp cwr
+
+    rp = {}
+    cwr.each do |k,v|
+      rp[ v.keys.first ] = k
+    end
+    # puts "rp"
+    # pp rp
+    rp
+  end
+  
+  def columns_with_rules
+    cwr = {}
+    @valid_tickets.first.each_index do |i|
+      # puts ''
+      # puts "Working on Column index #{i}"
+      cwr[i] = valid_rules_for_index(i)
+    end
+    cwr
+  end
+  
+  def valid_rules_for_index (i)
+    rules = @rules.select do |name, ranges|
+      # puts "trying #{name} #{ranges}"
+      rule_valid = true
+
+      @valid_tickets.each do |t|
+        # puts "Ticket #{t}"
+        rule_valid = false
+
+        ranges.each do |a,b|
+          if (a..b).include?(t[i])
+            rule_valid = true
+            break
+          end
+        end
+        
+        break unless rule_valid == true
+      end
+
+      rule_valid
+    end
+
+    # pp rules
+    rules
   end
   
   def validate_tickets
