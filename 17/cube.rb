@@ -1,187 +1,97 @@
-class Seating
-  ASTERISK_DIRECTIONS = [
-    [0, 1],
-    [1, 1],
-    [1, 0],
-    [1, -1],
-    [0, -1],
-    [-1, -1],
-    [-1, 0],
-    [-1, 1],
-  ]
+class Cube
+  
+  
+  # swap before / after boards to reduce allocation
+  # use a hash as the board {[x,y,z] => active}
+  # need a cube strategy to compute the neighbors (Cell.compute_neighbors)
+  # need an interface to iterate over all cells (@before.each_key)
 
   attr_reader :before
   
-  def initialize (file_name, neighborhood: :moore, stand_up: 4, print_boards: false)
-    @before = read_file(file_name)
-    @height, @width = @before.length, @before.first.length
-    @after = Array.new(@height) { Array.new(@width) }
+  def initialize (file_name, neighborhood: :cube, print_boards: false)
+    @neighborhood, @print_boards = neighborhood, print_boards
+    @cells = Hash.new { |h,k| h[k] = Cell.new(self, *k) }
+    @before = {}
+    @after = {}
+    # board boundaries
+    @z1, @z2 = 0, 0
+    @y1, @y2 = 0, 0
+    @x1, @x2 = 0, 0
     @iteration = 0
-    @neighborhood, @stand_up, @print_boards = neighborhood, stand_up, print_boards
-    @neighbors = Array.new(@height) { Array.new(@width) }
-    compute_neighbors
-    # pp @neighbors
-    print_board(@before) if @print_boards
+    load_board file_name
+    pp @before
+    pp @cells
+    puts "board size: #{[@z1, @y1, @x1]}, #{[@z2, @y2, @x2]}"
+    # print_board(@before) if @print_boards
   end
-  
-  def compute_neighbors
-    @before.each_with_index do |row, row_i|
-      row.each_index do |column_i|
-        @neighbors[row_i][column_i] = send(@neighborhood, row_i, column_i)
-      end
-    end
-  end
-  
-  def moore (row, column)
-    if row == 0
-      low_row = 0
-      high_row = row + 1
-    elsif row == (@height - 1)
-      low_row = row - 1
-      high_row = @height - 1
-    else
-      low_row = row - 1
-      high_row = row + 1
-    end
 
-    if column == 0
-      low_column = 0
-      high_column = column + 1
-    elsif column == (@width - 1)
-      low_column = column - 1
-      high_column = @width - 1
-    else
-      low_column = column - 1
-      high_column = column + 1
-    end
-    
-    result = []
-    (low_row..high_row).each do |r|
-      (low_column..high_column).each do |c|
-        next if [r, c] == [row, column] # skip my tile
-        next if @before[r,c].nil? # skip floor tiles
-        result << [r, c]
-      end
-    end
-
-    # puts "neighbors for #{row}, #{column} are"
-    # pp result
-
-    result
-  end
-  
-  def asterisk (row, column)
-    result = []
-    ASTERISK_DIRECTIONS.each do |v_mov, h_mov|
-      v, h = row, column
-      while true
-        h += h_mov
-        v += v_mov
-        unless (0..(@height-1)).include?(v) && (0..(@width-1)).include?(h)
-          break
-        end
-        # skip floor tiles (nil)
-        unless @before[v][h].nil?
-          result << [v, h]
-          break
+  def load_board (file_name)
+    File.open(file_name) do |f|
+      @z2 = 0
+      z = 0
+      f.each_line.each_with_index do |l,y|
+        @y2 = y # this will be the index of the last line
+        @x2 = l.length - 1
+        l.chars.each_with_index do |c,x|
+          if c == '#'
+            @before[ [z,y,x] ] = true
+          end
         end
       end
     end
-    
-    # pp result
-    result
   end
   
-  def value_for (row, column)
-    cell_value = @before[row][column]
-    return nil if cell_value.nil? # empty floor space
-    
-    # puts "row #{row} column #{column}"
-    # pp @neighbors[row][column].map { |a,b| @before[a][b] }
-    neighbor_count = @neighbors[row][column].reduce(0) do |sum, n|
-      x = @before[n[0]][n[1]]
-      if x.nil?
-        sum
-      else
-        sum + x
-      end
-    end
-    
-    # puts "cell_value #{cell_value} neighbor_count #{neighbor_count}"
-    if cell_value == 0 && neighbor_count == 0
-      1
-    elsif cell_value == 1 && neighbor_count >= @stand_up
-      0
-    else
-      cell_value
-    end
-  end
-  
-  def process_board
-    # iterate over cells, assigning values for each
-    @before.each_with_index do |row, row_i|
-      # puts "Row #{row_i}"
-      row.each_index do |column|
-        new_value = value_for(row_i, column)
-        @after[row_i][column] = new_value
-      end
-    end
-    
-    # compare before and after boards for stability
-    if @before == @after
-      return @iteration
-    end
-    
-    # swap before and after boards
-    @before, @after = @after, @before
+  def process!
+    # increment iteration
     @iteration += 1
-
-    print_board(@before) if @print_boards
+    # expand the board in each direction, on each axis
+    @z1 -= 1
+    @y1 -= 1
+    @x1 -= 1
+    @z2 += 1
+    @y2 += 1
+    @x2 += 1
+        
+    (@z1..@z2).each do |z|
+      (@y1..@y2).each do |y|
+        (@x1..@x2).each do |x|
+          address = [z,y,x]
+          c = @cells[address]
+          @after[address] = live(c)
+        end
+      end
+    end
+    puts "board size: #{[@z1, @y1, @x1]}, #{[@z2, @y2, @x2]}"
+    
+    # swap before / after
+    @before, @after = @after, @before
+    @before
   end
   
-  def run_to_stable
-    while @before != @after
-      process_board
+  def live (cell)
+    nc = cell.neighbor_count
+    if nc == 3
+      true
+    elsif nc == 2
+      cell.status
+    else
+      false
     end
   end
+      
+  # def run_to_stable
+  #   while @before != @after
+  #     process_board
+  #   end
+  # end
   
-  def count_occupied
-    @before.flatten.compact.sum
+  def active_count
+    @before.filter { |k,v| v }.size
   end
   
   def print_board (board)
     puts "Iteration #{@iteration}"
-    board.each do |row|
-      y = row.map do |x|
-        {
-          nil => '.',
-          0   => 'L',
-          1   => '#',
-        }[x]
-      end
-      puts y.join(' ')
-      puts ''
-    end
   end
   
-  def read_file (file_name)
-    File.open(file_name) do |f|
-      f.each_line.reduce([]) do |board,l|
-        
-        board << l.strip.chars.map do |c|
-          if c == '.'
-            nil
-          elsif c == 'L'
-            0
-          elsif c == '#'
-            1
-          else
-            raise "I don't understand #{c.inspect}"
-          end
-        end
-        
-      end
-    end
-  end
   
 end
