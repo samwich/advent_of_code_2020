@@ -1,22 +1,31 @@
 class Cell
-  def initialize (board, z, y, x)
+  attr_accessor :address
+  attr_accessor :neighbor_addresses
+  
+  def initialize (board, address)
     @board = board
-    @z, @y, @x = z, y, x
-    @neighbor_addresses = compute_neighbor_addresses
+    @address = address
+    @neighbor_addresses = compute_neighbor_addresses.flatten(address.length - 1)
   end
   
-  def compute_neighbor_addresses
-    result = []
-    [@z - 1, @z, @z + 1].each do |zz|
-      [@y - 1, @y, @y + 1].each do |yy|
-        [@x - 1, @x, @x + 1].each do |xx|
-          unless [zz, yy, xx] == [@z, @y, @x]
-            result << [zz, yy, xx]
-          end
+  def compute_neighbor_addresses (address=@address, neighbor = [])
+    # puts "compute_neighbor_addresses #{neighbor}, #{address}, #{@address}"
+
+    n = address.first
+    a, b = n - 1, n + 1
+    
+    (a..b).map do |x|
+      if address.length == 1
+        result = neighbor + [x]
+        if result == @address
+          nil
+        else
+          result
         end
+      else
+        compute_neighbor_addresses(address[1..], neighbor + [x])
       end
-    end
-    result
+    end.compact
   end
   
   def neighbor_count
@@ -24,7 +33,7 @@ class Cell
   end
   
   def status
-    @board.before[[@z,@y,@x]]
+    @board.before[@address]
   end
   
 end
