@@ -406,9 +406,7 @@ require_relative "cube"
 c2 = Cube.new('./input', dimensions: 4)
 6.times do |i|
   puts i
-  puts "active cells #{c2.active_count}"
   c2.process!
-  puts "active cells #{c2.active_count}"
 end
 puts "Day 17 Part 2: #{c2.active_count}"
 
