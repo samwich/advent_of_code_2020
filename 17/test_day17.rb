@@ -23,10 +23,9 @@ class TestCube < Test::Unit::TestCase
     board.print_board_3d
     6.times do
       board.process!
-      board.print_board_3d
+      # board.print_board_3d
     end
-    
-    
+
     assert_equal(112, board.active_count)
   end
 end

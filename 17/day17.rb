@@ -145,11 +145,11 @@
 require_relative "cell"
 require_relative "cube"
 
-c = Cube.new('./input')
-6.times do
-  c.process!
-end
-puts "Day 17 Part 1: #{c.active_count}"
+# c = Cube.new('./input')
+# 6.times do
+#   c.process!
+# end
+# puts "Day 17 Part 1: #{c.active_count}"
 
 # Your puzzle answer was 353.
 # --- Part Two ---
@@ -402,3 +402,15 @@ puts "Day 17 Part 1: #{c.active_count}"
 #
 # Starting with your given initial configuration, simulate six cycles in a 4-dimensional space. How many cubes are left in the active state after the sixth cycle?
 #
+
+c2 = Cube.new('./input', dimensions: 4)
+6.times do |i|
+  puts i
+  puts "active cells #{c2.active_count}"
+  c2.process!
+  puts "active cells #{c2.active_count}"
+end
+puts "Day 17 Part 2: #{c2.active_count}"
+
+# 35 is not the right answer
+# Your puzzle answer was 2472.
