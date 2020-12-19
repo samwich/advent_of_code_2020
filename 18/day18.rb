@@ -102,7 +102,7 @@ puts "#################### Part 1: #{result.sum}"
 #
 
 # reset @problems
-File.open('./test_input') do |f|
+File.open('./input') do |f|
   @problems = f.readlines.map do |prob|
     eval('[' + prob.gsub!(/[*+ \(\)]/, CHAR_MAP).chomp + ']')
   end
@@ -147,3 +147,6 @@ end
 pp result2
 
 puts "#################### Part 2: #{result2.sum}"
+
+# Your puzzle answer was 545115449981968.
+
