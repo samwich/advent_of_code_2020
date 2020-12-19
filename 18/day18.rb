@@ -49,9 +49,7 @@ File.open('./input') do |f|
   @problems = f.readlines.map do |prob|
     eval('[' + prob.gsub!(/[*+ \(\)]/, CHAR_MAP).chomp + ']')
   end
-
 end
-
 
 def solve(prob)
   prob.each_with_index do |e, i|
@@ -69,11 +67,11 @@ def solve(prob)
 end
 
 result = @problems.map do |prob|
-  pp prob
+  # pp prob
   solve(prob)
 end
 
-puts result.sum
+puts "#################### Part 1: #{result.sum}"
 
 # Your puzzle answer was 14006719520523.
 #
@@ -102,9 +100,50 @@ puts result.sum
 # ((2 + 4 * 9) * (6 + 9 * 8 + 6) + 6) + 2 + 4 * 2 becomes 23340.
 # What do you get if you add up the results of evaluating the homework problems using these new rules?
 #
-# Answer:
-#
-# Although it hasn't changed, you can still get your puzzle input.
-#
-# You can also [Share] this puzzle.
 
+# reset @problems
+File.open('./test_input') do |f|
+  @problems = f.readlines.map do |prob|
+    eval('[' + prob.gsub!(/[*+ \(\)]/, CHAR_MAP).chomp + ']')
+  end
+end
+
+# pp @problems
+
+def insert_parens (exp)
+  # puts "insert_parens(#{exp})"
+
+  exp.each do |e|
+    if e.instance_of? Array
+      # puts "e.instance_of? Array"
+      insert_parens(e)
+    end
+  end
+
+  i = 0
+  while i < exp.length
+    # puts "while"
+    # pp i
+    # pp exp[i]
+
+    if exp[i + 1] == :+
+      exp.insert(i, exp.slice!(i,3))
+    else
+      i += 2
+    end
+  end
+
+  exp
+end
+
+
+# prob = @problems.first
+result2 = @problems.map do |prob|
+  # pp prob
+  insert_parens(prob)
+  solve(prob)
+end
+
+pp result2
+
+puts "#################### Part 2: #{result2.sum}"
