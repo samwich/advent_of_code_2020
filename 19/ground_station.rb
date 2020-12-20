@@ -19,14 +19,17 @@ class GroundStation
         end
       end
     end
-    
+
     pp @rules
-    pp @messages
+    # pp @messages
+
+    @rules_cache = []
+    @regexp1 = /^#{build_rule(0)}$/
   end
   
   def read_rule (line)
     # puts line
-    matches = /^(?<addr>\d+): ("(?<char>[ab])"$|(?<list1>\d( \d)*))( \| (?<list2>\d( \d)*))?/.match(line)
+    matches = /^(?<addr>\d+): ("(?<char>[ab])"$|(?<list1>\d+( \d+)*))( \| (?<list2>\d+( \d+)*))?/.match(line)
     # pp matches
     
     addr = matches[:addr].to_i
@@ -36,11 +39,11 @@ class GroundStation
     end
     
     if matches[:char]
-      rules = [matches[:char]]
+      rules = [[matches[:char]]]
     else
       rules = references
     end
-    
+
     [ addr, rules ]
   end
   
@@ -49,19 +52,28 @@ class GroundStation
   end
   
   def build_rule (i)
-    puts "build_rule(#{i})"
-    rule = @rules[i]
-    result = []
-    rule.each do |r|
-      if r.instance_of? String
-        result << r
+    return i if i.instance_of? String
+    @rules_cache[i] ||= begin
+      puts "build_rule(#{i})"
+
+      rule = @rules[i]
+
+      x = rule.map do |r|
+        r.map do |rr|
+          build_rule rr
+        end.join
+      end.join('|')
+      if x.include?('|')
+        "(#{x})"
       else
-        r.each do |rr|
-          result << build_rule(rr)
-        end
+        x
       end
     end
-    result
   end
   
+  def check_messages
+    @messages.each do |m|
+      puts "#{m}: #{@regexp1.match? m}"
+    end
+  end
 end

@@ -51,3 +51,6 @@
 # How many messages completely match rule 0?
 #
 
+require_relative 'ground_station'
+gs = GroundStation.new('./input')
+gs.check_messages

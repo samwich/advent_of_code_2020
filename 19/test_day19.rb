@@ -11,7 +11,7 @@ class TestDay19 < Test::Unit::TestCase
   end
 
   def test_parse_single_character
-    assert_equal([1, ['a']], @gs.read_rule('1: "a"'))
+    assert_equal([1, [['a']]], @gs.read_rule('1: "a"'))
   end
 
   def test_read_rule0
@@ -31,14 +31,18 @@ class TestDay19 < Test::Unit::TestCase
   end
 
   def test_read_rule4
-    assert_equal([4, ['a']], @gs.read_rule('4: "a"'))
+    assert_equal([4, [['a']]], @gs.read_rule('4: "a"'))
   end
 
   def test_read_rule5
-    assert_equal([5, ['b']], @gs.read_rule('5: "b"'))
+    assert_equal([5, [['b']]], @gs.read_rule('5: "b"'))
   end
 
   def test_build_rule
-    pp @gs.build_rule(0)
+    @gs.build_rule(0)
+  end
+
+  def test_check_messages
+    @gs.check_messages
   end
 end
