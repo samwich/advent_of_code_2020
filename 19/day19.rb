@@ -53,4 +53,7 @@
 
 require_relative 'ground_station'
 gs = GroundStation.new('./input')
-gs.check_messages
+puts "Day 19 Part 1: #{gs.check_messages.count {|x|x}}"
+
+# Your puzzle answer was 168.
+

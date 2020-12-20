@@ -72,8 +72,10 @@ class GroundStation
   end
   
   def check_messages
-    @messages.each do |m|
-      puts "#{m}: #{@regexp1.match? m}"
+    @messages.map do |m|
+      result = @regexp1.match?(m)
+      puts "#{m}: #{result}"
+      result
     end
   end
 end
