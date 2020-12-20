@@ -5,7 +5,7 @@ class GroundStation
       while true
         l = f.readline
         break if l.strip.empty?
-        idx, rules = parse_rule(l)
+        idx, rules = read_rule(l)
         @rules[idx] = rules
       end
       
@@ -20,11 +20,11 @@ class GroundStation
       end
     end
     
-    # pp @rules
+    pp @rules
     pp @messages
   end
   
-  def parse_rule (line)
+  def read_rule (line)
     # puts line
     matches = /^(?<addr>\d+): ("(?<char>[ab])"$|(?<list1>\d( \d)*))( \| (?<list2>\d( \d)*))?/.match(line)
     # pp matches
@@ -43,4 +43,25 @@ class GroundStation
     
     [ addr, rules ]
   end
+  
+  def pass? (addr, message)
+    
+  end
+  
+  def build_rule (i)
+    puts "build_rule(#{i})"
+    rule = @rules[i]
+    result = []
+    rule.each do |r|
+      if r.instance_of? String
+        result << r
+      else
+        r.each do |rr|
+          result << build_rule(rr)
+        end
+      end
+    end
+    result
+  end
+  
 end
