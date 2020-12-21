@@ -1,4 +1,5 @@
 class Stitcher
+  attr_reader :sides
   def initialize (file_name)
     @tiles = {}
     File.open(file_name) do |f|
@@ -6,44 +7,29 @@ class Stitcher
         title, tile = t.split(':')
         tile_id = title.split(' ').last.to_i
         pp tile_id
-        @tiles[tile_id] = tile.each_line.map(&:chomp).reject {|l| l.empty? }
+        image = tile.each_line.map(&:chomp).reject {|l| l.empty? }
+        @tiles[tile_id] = Tile.new(self, tile_id, image)
       end
     end
 
     @sides = Hash.new {|h,k| h[k] = []}
 
     @tiles.each do |k,v|
-      sides = [
-        v.first,
-        v.last,
-        v.map {|l| l.chars.first}.join,
-        v.map {|l| l.chars.last}.join,
-        v.first.reverse,
-        v.last.reverse,
-        v.map {|l| l.chars.first}.join.reverse,
-        v.map {|l| l.chars.last}.join.reverse,
-      ]
-
-      @tiles[k] = {
-        raw_tile: v,
-        sides: sides,
-      }
-
-      sides.each do |side|
+      v.sides.each do |side|
         @sides[side] << k
       end
     end
 
-    @tiles.each do |k,v|
-      v[:neighbors] = v[:sides].map{|s| @sides[s]}.flatten.reject{|x|x == k}.uniq
-    end
+    # @tiles.each do |k,v|
+    #   v[:neighbors] = v[:sides].map{|s| @sides[s]}.flatten.reject{|x|x == k}.uniq
+    # end
     
-    pp @tiles
+    # pp @tiles
     # pp @sides
   end
 
   def corner_tiles
-    @tiles.select{|k,v| v[:neighbors].count == 2 }
+    @tiles.select{|k,v| v.neighbors.count == 2 }
   end
 
   # during the pre-processing step, keep track of which tiles have to be flipped to match?
@@ -58,6 +44,8 @@ class Stitcher
   # flip and rotate it so it matches up with the first tile, and place it next to the first tile
 
   # find the monster
+  # regexp for each line of the monster. if I find the middle line, then check the line above and below 
+  # rotate or flip the board
 
   # count the waves
 

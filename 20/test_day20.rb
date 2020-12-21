@@ -1,6 +1,7 @@
 require 'test/unit'
 
 require_relative 'stitcher'
+require_relative 'tile'
 
 class TestStitcher < Test::Unit::TestCase
   def setup
