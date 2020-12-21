@@ -1,5 +1,5 @@
 class GroundStation
-  def initialize (file_name)
+  def initialize (file_name, overrides=[])
     @rules = []
     File.open(file_name) do |f|
       while true
@@ -20,11 +20,14 @@ class GroundStation
       end
     end
 
+    @overrides = overrides
+
     pp @rules
     # pp @messages
 
     @rules_cache = []
     @regexp1 = /^#{build_rule(0)}$/
+    pp @regexp1
   end
   
   def read_rule (line)
@@ -51,10 +54,23 @@ class GroundStation
     
   end
   
+  #  8: (42)+
+  # 11: (?<nest>42(\g<nest>)?31)
+
   def build_rule (i)
     return i if i.instance_of? String
     @rules_cache[i] ||= begin
       puts "build_rule(#{i})"
+
+      if @overrides.include? i
+        if i == 8
+          puts "rule 8"
+          return "(#{build_rule(42)})+"
+        elsif i == 11
+          puts "rule 11"
+          return "(?<nest>#{build_rule(42)}(\\g<nest>)?#{build_rule(31)})"
+        end
+      end
 
       rule = @rules[i]
 

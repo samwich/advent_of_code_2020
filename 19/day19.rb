@@ -136,3 +136,9 @@ puts "Day 19 Part 1: #{gs.check_messages.count {|x|x}}"
 # aabbbbbaabbbaaaaaabbbbbababaaaaabbaaabba
 # After updating rules 8 and 11, how many messages completely match rule 0?
 
+overrides = [8, 11]
+
+gs2 = GroundStation.new('./input', overrides)
+puts "Day 19 Part 2: #{gs2.check_messages.count {|x|x}}"
+
+# Your puzzle answer was 277.
