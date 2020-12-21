@@ -46,4 +46,20 @@ class Stitcher
     @tiles.select{|k,v| v[:neighbors].count == 2 }
   end
 
+  # during the pre-processing step, keep track of which tiles have to be flipped to match?
+  # I think there are two sets of matches during preprocessing. there should be a way to choose half of them that "match"
+
+  # I won't know the proper orientation of the board until I find the monsters
+
+  # stitch it together:
+  # take the first corner and treat that as 0,0
+  # rotate it so that its non-matching sides point away from the board
+  # find a tile with a matching side
+  # flip and rotate it so it matches up with the first tile, and place it next to the first tile
+
+  # find the monster
+
+  # count the waves
+
+
 end
