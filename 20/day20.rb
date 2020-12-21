@@ -162,4 +162,9 @@
 
 # Assemble the tiles into an image. What do you get if you multiply together the IDs of the four corner tiles?
 
+require_relative 'stitcher'
+st = Stitcher.new('./input')
+puts "Day 20 Part 1: #{st.corner_tiles.keys.reduce(&:*)}"
+
+# Your puzzle answer was 84116744709593.
 
