@@ -1,4 +1,5 @@
 require 'test/unit'
+require 'strscan'
 
 require_relative 'stitcher'
 require_relative 'tile'

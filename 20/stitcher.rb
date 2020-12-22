@@ -47,7 +47,7 @@ class Stitcher
     end
     puts "total waves: #{wave_count}"
     puts "total monsters: #{@monster_count}"
-    puts "wave_count - @monster_count * 15 #{wave_count - @monster_count * 15}"
+    puts "wave_count - @monster_count * 15 = #{wave_count - @monster_count * 15} waves"
     @monster_count * 15
   end
 
@@ -64,27 +64,40 @@ class Stitcher
     @monster_count = 0
 
     @mega_image.each_with_index do |line, i|
-      upper_body_match = upper_body_regex.match(line)
-      if upper_body_match
-        puts "line #{i}"
-        upper_body_offset = upper_body_match.begin(0)
-        puts "at position #{upper_body_offset}"
-        head_found = @mega_image[i-1].chars[upper_body_offset + 18] == '#'
-        if head_found
-          puts "head_found"
-          lower_body_match = lower_body_regex.match(@mega_image[i+1])
-          if lower_body_match
-            lower_body_offset = lower_body_match.begin(0)
-            puts "lower_body_match at #{lower_body_offset}"
-            if upper_body_offset == lower_body_offset
+
+      ss = StringScanner.new(line)
+
+      if ss.exist?(upper_body_regex)
+        # puts "String Scan"
+
+        while true
+          ss.scan_until(upper_body_regex)
+          break unless ss.matched?
+          puts "StringScanner upper_body found on line #{i} at #{ss.pos}"
+          # pp ss
+          # puts ss.pos
+          # puts ss.matched_size
+
+          head_position = ss.pos - 2
+          head_found = @mega_image[i-1].chars[head_position] == '#'
+          if head_found
+            # puts "head_found"
+            start_pos = ss.pos - ss.matched_size
+            ss_lower_body = StringScanner.new(@mega_image[i+1])
+            ss_lower_body.pos = start_pos
+            ss_lower_body.scan_until(lower_body_regex)
+            if ss_lower_body.matched?
               @monster_count += 1
-              puts @mega_image[i-1]
-              puts line
-              puts @mega_image[i+1]
+              puts "StringScanner lower_body found on line #{i+1} at #{ss_lower_body.pos}"
+            else
+              puts "lower_body not found"
             end
           end
+
         end
+
       end
+
     end
     puts "#{@monster_count} sea monsters found"
   end

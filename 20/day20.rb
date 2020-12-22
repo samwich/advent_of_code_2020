@@ -264,6 +264,9 @@ puts "Day 20 Part 1: #{st.corner_tiles.keys.reduce(&:*)}"
 
 # How many # are not part of a sea monster?
 
+require 'strscan'
+
 puts "Day 20 Part 2: #{st.day2}"
 
 # 2107 is too high. There might be more than 1 monster per line. My math might be off.
+# Your puzzle answer was 1957.
