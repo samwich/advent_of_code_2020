@@ -263,3 +263,7 @@ puts "Day 20 Part 1: #{st.corner_tiles.keys.reduce(&:*)}"
 # Determine how rough the waters are in the sea monsters' habitat by counting the number of # that are not part of a sea monster. In the above example, the habitat's water roughness is 273.
 
 # How many # are not part of a sea monster?
+
+puts "Day 20 Part 2: #{st.day2}"
+
+# 2107 is too high. There might be more than 1 monster per line. My math might be off.
