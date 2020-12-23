@@ -58,4 +58,8 @@ class Ingredients
       ings.reject {|ing| allergen_ingredients.include? ing }
     end.flatten.count
   end
+
+  def part2
+    @ingredients_to_allergens.sort.map(&:last).join(',')
+  end
 end
