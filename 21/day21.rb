@@ -20,3 +20,8 @@
 
 # Determine which ingredients cannot possibly contain any of the allergens in your list. How many times do any of those ingredients appear?
 
+require 'set'
+require_relative 'ingredients'
+
+ings = Ingredients.new('./input')
+ings.overlaps
