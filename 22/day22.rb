@@ -384,7 +384,7 @@ puts "Day 22 part 2: player #{g2.play_part2} wins, with #{g2.score}"
 
 # 34692 is too high
 
-# repeated runs give different answers!
+# repeated runs give different answers! I'm on ruby 3.0.0rc1 (2020-12-20 master 8680ae9cbd) [arm64-darwin20] compiled by rbenv
 # Day 22 part 2: player 1 wins, with 35425
 # sam@spruce ~/code/aoc2020/22 (22-crab-combat S U) % ruby day22.rb
 # Day 22 part 1: 33925
@@ -395,3 +395,12 @@ puts "Day 22 part 2: player #{g2.play_part2} wins, with #{g2.score}"
 # sam@spruce ~/code/aoc2020/22 (22-crab-combat S U) % ruby day22.rb
 # Day 22 part 1: 33925
 # Day 22 part 2: player 1 wins, with 34333
+
+# repeated runs agree with ruby 2.6.3p62 (2019-04-16 revision 67580) [universal.arm64e-darwin20] compiled by apple
+
+# sam@spruce ~/code/aoc2020/22 (22-crab-combat U) % ruby day22.rb 
+# Day 22 part 1: 33925
+# Day 22 part 2: player 1 wins, with 33441
+
+# Your puzzle answer was 33441.
+
