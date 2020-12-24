@@ -17,7 +17,7 @@ class Game
 
   attr_reader :p1, :p2
 
-  def initialize (file_name: nil, p1: nil, p2: nil)
+  def initialize(file_name: nil, p1: nil, p2: nil)
     if file_name
       # @@game_number = 1
       File.open(file_name) do |f|
@@ -50,7 +50,7 @@ class Game
         # play 1 wins
         return PLAYER_1
       end
-      
+
       p1_card = @p1.first
       p2_card = @p2.first
 
@@ -82,7 +82,7 @@ class Game
     end
   end
 
-  def win (winner, loser)
+  def win(winner, loser)
     winner << winner.shift
     winner << loser.shift
   end
