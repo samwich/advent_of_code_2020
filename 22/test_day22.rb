@@ -1,9 +1,10 @@
 require 'test/unit'
+require 'set'
 require_relative 'game'
 
 class TestDay22 < Test::Unit::TestCase
   def setup
-    @game = Game.new('./test_input')
+    @game = Game.new(file_name: './test_input')
   end
 
   def test_file_load
@@ -19,5 +20,9 @@ class TestDay22 < Test::Unit::TestCase
 
   def test_play_part1
     assert_equal 306, @game.play_part1
+  end
+
+  def test_play_part2
+    assert_equal(2, @game.play_part2)
   end
 end
