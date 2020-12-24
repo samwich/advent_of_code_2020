@@ -104,3 +104,9 @@
 
 # Play the small crab in a game of Combat using the two decks you just dealt. What is the winning player's score?
 
+require_relative 'game'
+g = Game.new('./input')
+puts "Day 22 part 1: #{g.play_part1}"
+
+# Your puzzle answer was 33925.
+
