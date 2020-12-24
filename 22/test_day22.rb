@@ -24,5 +24,6 @@ class TestDay22 < Test::Unit::TestCase
 
   def test_play_part2
     assert_equal(2, @game.play_part2)
+    assert_equal(291, @game.score)
   end
 end

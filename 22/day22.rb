@@ -104,8 +104,9 @@
 
 # Play the small crab in a game of Combat using the two decks you just dealt. What is the winning player's score?
 
+require 'set'
 require_relative 'game'
-g = Game.new('./input')
+g = Game.new(file_name: './input')
 puts "Day 22 part 1: #{g.play_part1}"
 
 # Your puzzle answer was 33925.
@@ -376,6 +377,21 @@ puts "Day 22 part 1: #{g.play_part1}"
 
 # Defend your honor as Raft Captain by playing the small crab in a game of Recursive Combat using the same two decks as before. What is the winning player's score?
 
-require 'set'
-g2 = Game.new('./input')
-puts "Day 22 part 2: #{g.play_part2}"
+g2 = Game.new(file_name: './input')
+puts "Day 22 part 2: player #{g2.play_part2} wins, with #{g2.score}"
+
+# pp g2
+
+# 34692 is too high
+
+# repeated runs give different answers!
+# Day 22 part 2: player 1 wins, with 35425
+# sam@spruce ~/code/aoc2020/22 (22-crab-combat S U) % ruby day22.rb
+# Day 22 part 1: 33925
+# Day 22 part 2: player 1 wins, with 31425
+# sam@spruce ~/code/aoc2020/22 (22-crab-combat S U) % ruby day22.rb
+# Day 22 part 1: 33925
+# Day 22 part 2: player 1 wins, with 34692
+# sam@spruce ~/code/aoc2020/22 (22-crab-combat S U) % ruby day22.rb
+# Day 22 part 1: 33925
+# Day 22 part 2: player 1 wins, with 34333

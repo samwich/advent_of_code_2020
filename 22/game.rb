@@ -42,9 +42,11 @@ class Game
   end
 
   def play_part2
-    puts "Game number #{@@game_number}"
+    # puts "Game number #{@@game_number}"
     until @p1.empty? || @p2.empty?
+      # puts "Hand #{@previous_hands.size}"
       if update_previous_hands
+        # puts "previous hands match. play 1 wins"
         # play 1 wins
         return PLAYER_1
       end
@@ -88,10 +90,10 @@ class Game
   def update_previous_hands
     # pp @p1 + @p2
     # pp @previous_hands
-    if @previous_hands.include?(@p1 + @p2)
+    if @previous_hands.include?([@p1, @p2])
       true
     else
-      @previous_hands.add(@p1 + @p2)
+      @previous_hands.add([@p1, @p2])
       # puts "@previous_hands should have something now"
       # pp @previous_hands
       false
