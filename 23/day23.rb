@@ -75,6 +75,8 @@
 # Your puzzle input is 586439172.
 
 require_relative 'crab_cup'
-cc = CrabCup.new('389125467'.chars.map(&:to_i))
-cc.play_rounds(100)
-pp cc.cups
+cc = CrabCup.new('586439172'.chars.map(&:to_i))
+puts "Day 23 Part 1: #{cc.part1}"
+
+# Your puzzle answer was 28946753.
+
