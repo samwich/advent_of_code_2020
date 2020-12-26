@@ -11,7 +11,7 @@
 
 
 class Game
-  # @@game_number = 0
+  @@game_number = 0
   PLAYER_1 = 1
   PLAYER_2 = 2
 
@@ -19,14 +19,14 @@ class Game
 
   def initialize(file_name: nil, p1: nil, p2: nil)
     if file_name
-      # @@game_number = 1
+      @@game_number = 1
       File.open(file_name) do |f|
         @p1, @p2 = f.read.split("\n\n").map do |hand|
           hand.each_line.reject { |l| /Player /.match l }.map(&:to_i)
         end
       end
     elsif p1 && p2
-      # @@game_number += 1
+      @@game_number += 1
       @p1, @p2 = p1, p2
     else
       raise "I can't make a game."
