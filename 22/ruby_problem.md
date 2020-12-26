@@ -1,3 +1,13 @@
+This wasn't a Ruby on M1 problem, this was a problem with my code.
+I was mutating arrays after adding them to a `Set`, which made `Set` behave unpredictably.
+In ruby 2.6, mutating members of the set wasn't causing a problem.
+In ruby 2.7+, it was.
+
+This bug report is what tipped me off: https://bugs.ruby-lang.org/issues/17427
+
+
+===== Original write-up =====
+
 On an Apple Silicon M1 with macOS Big Sur 11.1
 
 ruby compiled by Apple is correct, but other rubys are incorrect and inconsistent.

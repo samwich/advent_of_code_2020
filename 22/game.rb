@@ -88,14 +88,12 @@ class Game
   end
 
   def update_previous_hands
-    # pp @p1 + @p2
-    # pp @previous_hands
-    if @previous_hands.include?([@p1, @p2])
+    # make a new, unique array to represent the hands
+    combined_hands = @p1 + [0] + @p2
+    if @previous_hands.include?(combined_hands)
       true
     else
-      @previous_hands.add([@p1, @p2])
-      # puts "@previous_hands should have something now"
-      # pp @previous_hands
+      @previous_hands.add(combined_hands)
       false
     end
   end
