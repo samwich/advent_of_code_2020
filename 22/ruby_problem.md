@@ -48,7 +48,19 @@ I also get incorrect results with 2.7.2 and 3.0.0 locally built via `rbenv insta
     Day 22 part 2: player 1 wins, with 34333
     % ruby ruby_problem.rb
     Day 22 part 2: player 1 wins, with 31804  
-    
+
+## Incorrect
+built from source:
+
+     ~/code/aoc2020/22 (main) % ~/ruby-2.7.2/bin/ruby -v
+    ruby 2.7.2p137 (2020-10-01 revision 5445e04352) [arm64-darwin20]
+     ~/code/aoc2020/22 (main) % ~/ruby-2.7.2/bin/ruby ruby_problem.rb
+    Day 22 part 2: player 1 wins, with 30626
+     ~/code/aoc2020/22 (main) % ~/ruby-2.7.2/bin/ruby ruby_problem.rb
+    Day 22 part 2: player 1 wins, with 9955
+     ~/code/aoc2020/22 (main) % ~/ruby-2.7.2/bin/ruby ruby_problem.rb
+    Day 22 part 2: player 1 wins, with 31263
+
 
 
 Code that exercises the behavior is available here:
