@@ -8,12 +8,12 @@ class TestDay23 < Test::Unit::TestCase
 
   def test_1_move
     @cc.play_round
-    assert_equal([2, 8, 9, 1, 5, 4, 6, 7, 3], @cc.cups)
+    assert_equal([2, 8, 9, 1, 5, 4, 6, 7, 3], @cc.print_cups)
   end
 
   def test_10_moves
     @cc.play_rounds(10)
-    assert_equal([8,3,7,4,1,9,2,6,5], @cc.cups)
+    assert_equal([8,3,7,4,1,9,2,6,5], @cc.print_cups)
   end
 
   def test_part1
