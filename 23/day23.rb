@@ -100,6 +100,10 @@ puts "Day 23 Part 1: #{cc.part1}"
 
 # Your puzzle input is still 586439172.
 
-cc2 = CrabCup.new(part_1_input)
+cc2 = CrabCup.new(part_1_input, 1_000_000)
 puts "Day 23 Part 2: #{cc2.part2}"
 
+# Day 23 Part 2: 519044017360
+# ruby day23.rb  3.74s user 0.04s system 99% cpu 3.794 total
+
+# Your puzzle answer was 519044017360.

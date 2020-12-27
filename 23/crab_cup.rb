@@ -1,6 +1,9 @@
 class CrabCup
   attr_reader :cups
-  def initialize(cup_order)
+  def initialize(cup_order, pad_to=0)
+    if pad_to > cup_order.length
+      cup_order = cup_order + ((cup_order.max + 1)..pad_to).to_a
+    end
     @head = cup_order.first
     @cups = Array.new(cup_order.length)
     cup_order.each_with_index do |c,i|
@@ -8,7 +11,7 @@ class CrabCup
       @cups[c] = cup_order[i + 1]
     end
     @cups[cup_order.last] = cup_order.first
-    puts "initialize @cups #{@cups}"
+    puts "initialize first 20 @cups #{@cups[0,20]}"
   end
 
   def print_cups
@@ -32,13 +35,12 @@ class CrabCup
   end
 
   def part2
-    @cups = @cups + (10..1_000_000).to_a
     pp @cups.length
-    # play_rounds 10_000_000
-    # play_rounds 100
+    play_rounds 10_000_000
     puts a1 = get_tail(1)
     puts a2 = get_tail(a1)
     puts a1 * a2
+    a1 * a2
   end
 
 
@@ -47,7 +49,7 @@ class CrabCup
     n.times do
       # pp @cups
       round += 1
-      puts "Round #{round}" if round % 100 == 0
+      puts "Round #{round}" if round % 1000 == 0
       play_round
     end
     # pp @cups
@@ -67,7 +69,7 @@ class CrabCup
     # @cups[cut_tail] = nil
 
     if current_cup == 1
-      destination = cups.length - 1
+      destination = @cups.length - 1
     else
       destination = current_cup - 1
     end
