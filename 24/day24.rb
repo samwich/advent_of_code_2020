@@ -40,3 +40,9 @@
 
 # Go through the renovation crew's list and determine which tiles they need to flip. After all of the instructions have been followed, how many tiles are left with the black side up?
 
+require 'strscan'
+require_relative 'floor'
+f1 = Floor.new('./input')
+puts "Day 24 Part 1: #{f1.part1}"
+
+# Your puzzle answer was 465.
