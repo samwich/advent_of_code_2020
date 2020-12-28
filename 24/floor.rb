@@ -1,5 +1,7 @@
 class Floor
   DIRECTION_REGEX = /[ns][ew]|[ew]/
+  BLACK = true
+  WHITE = false
 
   NEIGHBORS = {
     #     x,  y,  z
@@ -30,7 +32,9 @@ class Floor
         instruction_list
       end
     end
-    @tiles = {}
+    @tiles       = Hash.new {|h,k| h[k] = nil}
+    @after_tiles = Hash.new {|h,k| h[k] = nil}
+    @neighbor_lists = {}
     # pp @instruction_lists
   end
 
@@ -39,7 +43,20 @@ class Floor
       run_list list
       # pp @tiles
     end
+    black_tile_count
+  end
+
+  def black_tile_count
     @tiles.values.filter {|x|x}.count
+  end
+
+  def part2
+    part1
+    puts "Day 0: #{black_tile_count}"
+    100.times do |i|
+      process_floor!
+      puts "Day #{i+1}: #{black_tile_count}"
+    end
   end
 
   def run_list(list)
@@ -50,7 +67,40 @@ class Floor
       # pp [x,y,z]
     end
     addr = [x,y,z]
-    # puts "@tiles[#{addr}] is #{@tiles[addr].inspect}, flipping to #{(! @tiles[addr]).inspect}"
     @tiles[addr] = ! @tiles[addr]
   end
+
+  def process_floor!
+    # initialize neighbors
+    @tiles.keys.each do |k|
+      if @tiles[k] == BLACK
+        neighbor_list(k).each do |nei|
+          @tiles[nei]
+        end
+      end
+    end
+
+    @tiles.keys.sort.each do |addr|
+      neighbors = neighbor_list(addr)
+      neighbor_count = @tiles.values_at(*neighbors).filter {|x|x}.size
+      if neighbor_count == 2
+        @after_tiles[addr] = BLACK
+      elsif neighbor_count == 1
+        @after_tiles[addr] = @tiles[addr]
+      else
+        @after_tiles[addr] = WHITE
+      end
+      # puts "#{addr}\t#{neighbor_count} of #{neighbors.length} neighbors are true. from #{@tiles[addr].inspect}\tto #{@after_tiles[addr].inspect}"
+    end
+
+    @tiles, @after_tiles = @after_tiles, @tiles
+  end
+
+  def neighbor_list(addr)
+    @neighbor_lists[addr] ||= NEIGHBORS.values.map do |xx,yy,zz|
+      x, y, z = addr
+      [x + xx, y + yy, z + zz]
+    end
+  end
+
 end
