@@ -15,4 +15,8 @@ class TestComboBreaker < Test::Unit::TestCase
   def test_get_loop_size_door
     assert_equal(11, @cb.get_loop_size(@door_pub))
   end
+
+  def test_encryption_key
+    assert_equal(14897079, @cb.encryption_key)
+  end
 end
