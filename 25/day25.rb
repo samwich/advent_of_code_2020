@@ -38,4 +38,10 @@
 # What encryption key is the handshake trying to establish?
 # 
 
+require_relative 'combo_breaker'
 input = [2069194, 16426071]
+
+puts "Day 25 Part 1: #{ComboBreaker.new(input).encryption_key}"
+
+# Your puzzle answer was 11576351.
+
